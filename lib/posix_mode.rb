@@ -1,0 +1,1 @@
+require 'god_object/posix_mode'
