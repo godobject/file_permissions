@@ -6,6 +6,8 @@ module GodObject
     class ComplexMode
       attr_accessor :special, :user, :group, :other
 
+      extend Forwardable
+
       class << self
         include HelperMixin
 
@@ -111,6 +113,8 @@ module GodObject
 
         result
       end
+
+      def_delegators :@special, :setuid?, :setgid?, :sticky?
 
     end
 

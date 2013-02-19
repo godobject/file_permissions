@@ -30,7 +30,7 @@ module GodObject
 
       def_delegators :@bit_set,
         :attributes, :state, :[], :enabled_digits, :disabled_digits,
-        :read?, :read, :write?, :write, :execute?, :execute?,
+        :setuid?, :setuid, :setgid?, :setgid, :sticky?, :sticky,
         :to_i, :to_s, :hash
 
     end

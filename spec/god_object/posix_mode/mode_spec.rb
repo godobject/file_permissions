@@ -8,7 +8,6 @@ module GodObject
         context "given an octal representation" do
           it "should return an empty set if a 0 is given" do
             Mode.parse('0').should eql Mode.new(Set[])
-            binding.pry
           end
 
           it "should return a set including the execute token if a 1 is given" do
@@ -91,7 +90,7 @@ module GodObject
       describe ".new" do
         it "should handle no parameters" do
           mode = Mode.new
-          mode.should be_a(PosixACL::Mode)
+          mode.should be_a(Mode)
           mode.read?.should eql false
           mode.write?.should eql false
           mode.execute?.should eql false

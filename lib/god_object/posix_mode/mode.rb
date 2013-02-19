@@ -59,13 +59,9 @@ module GodObject
         @bit_set = BIT_SET_CONFIGURATION.new(mode_components)
       end
 
-      def <=>(other)
-        to_i <=> other.to_i
-      end
-
       def_delegators :@bit_set,
         :attributes, :state, :[], :enabled_digits, :disabled_digits,
-        :read?, :read, :write?, :write, :execute?, :execute?,
+        :read?, :read, :write?, :write, :execute?, :execute,
         :to_i, :to_s, :hash
 
     end

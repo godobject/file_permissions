@@ -50,6 +50,10 @@ module GodObject
         nil
       end
 
+      def eql?(other)
+        self == other && other.kind_of?(self.class)
+      end
+
       def inspect
         "#<#{self.class}: #{to_s.inspect}>"
       end
