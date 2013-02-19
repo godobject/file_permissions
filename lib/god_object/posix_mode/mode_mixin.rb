@@ -21,31 +21,31 @@ module GodObject
       end
 
       def intersection(other)
-        other = other.state if other.respond_to?(:state)
+        other = other.to_i if other.respond_to?(:to_i)
 
-        self.class.new(state & other)
+        self.class.new(to_i & other)
       end
 
       alias & intersection
 
       def union(other)
-        other = other.state if other.respond_to?(:state)
+        other = other.to_i if other.respond_to?(:to_i)
 
-        self.class.new(state | other)
+        self.class.new(to_i | other)
       end
 
       alias | union
 
       def symmetric_difference(other)
-        other = other.state if other.respond_to?(:state)
+        other = other.to_i if other.respond_to?(:to_i)
 
-        self.class.new(state ^ other)
+        self.class.new(to_i ^ other)
       end
 
       alias ^ symmetric_difference
 
       def <=>(other)
-        state <=> other.state
+        to_i <=> other.to_i
       rescue NoMethodError
         nil
       end

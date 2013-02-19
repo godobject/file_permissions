@@ -2,8 +2,27 @@ require 'spec_helper'
 
 module GodObject
   module PosixMode
+
     describe ComplexMode do
-      
+
+      describe ".build" do
+        it "should return the same object if a ComplexMode is given" do
+          existing_mode = ComplexMode.new(5)
+
+          mode = ComplexMode.build(existing_mode)
+
+          mode.should equal existing_mode
+        end
+
+        it "should create a new instance if given something else" do
+          argument = [:user_read, :user_write, :group_read, :other_execute, :sticky]
+
+          ComplexMode.should_receive(:new).once.with(argument)
+
+          ComplexMode.build(argument)
+        end
+      end
+
       describe ".new" do
         it "should handle mode components" do
           complex_mode = ComplexMode.new(00610)

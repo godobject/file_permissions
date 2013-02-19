@@ -10,6 +10,14 @@ module GodObject
 
       class << self
         include HelperMixin
+        
+        def build(mode)
+          if mode.kind_of?(self)
+            mode
+          else
+            new(mode)
+          end
+        end
 
         def from_file(path, symlink_handling = :resolve_symlinks)
           file = to_pathname(path)

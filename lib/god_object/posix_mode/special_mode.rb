@@ -14,7 +14,7 @@ module GodObject
       include ModeMixin
       include Comparable
 
-      class << self 
+      class << self
         def build(mode)
           if mode.kind_of?(self)
             mode

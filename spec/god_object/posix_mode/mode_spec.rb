@@ -3,6 +3,25 @@ require 'spec_helper'
 module GodObject
   module PosixMode
     describe Mode do
+
+      describe ".build" do
+        it "should return the same object if a Mode is given" do
+          existing_mode = Mode.new(5)
+
+          mode = Mode.build(existing_mode)
+
+          mode.should equal existing_mode
+        end
+
+        it "should create a new instance if given something else" do
+          argument = 4
+
+          Mode.should_receive(:new).once.with(argument)
+
+          Mode.build(argument)
+        end
+      end
+
       describe ".parse" do
 
         context "given an octal representation" do
@@ -119,13 +138,13 @@ module GodObject
       end
 
       let(:empty_mode) { Mode.parse('---') }
-      let(:r_mode)     { Mode.parse('r--') }
-      let(:w_mode)     { Mode.parse('-w-') }
-      let(:rw_mode)    { Mode.parse('rw-') }
-      let(:x_mode)     { Mode.parse('--x') }
-      let(:rx_mode)    { Mode.parse('r-x') }
-      let(:wx_mode)    { Mode.parse('-wx') }
-      let(:rwx_mode)   { Mode.parse('rwx') }
+      let(:sticky_mode)     { Mode.parse('--x') }
+      let(:setgid_mode)     { Mode.parse('-w-') }
+      let(:setgid_sticky_mode)    { Mode.parse('-wx') }
+      let(:setuid_mode)     { Mode.parse('r--') }
+      let(:setuid_sticky_mode)    { Mode.parse('r-x') }
+      let(:setuid_setgid_mode)    { Mode.parse('rw-') }
+      let(:full_mode)   { Mode.parse('rwx') }
 
       describe "#==" do
         it "should be true if compare to itself" do
