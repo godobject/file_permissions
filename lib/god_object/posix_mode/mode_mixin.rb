@@ -4,6 +4,21 @@ module GodObject
   module PosixMode
 
     module ModeMixin
+
+      def self.included(base)
+        base.extend ClassMethods
+      end
+
+      module ClassMethods
+        def build(mode)
+          if mode.kind_of?(self)
+            mode
+          else
+            new(mode)
+          end
+        end
+      end
+
       def invert
         self.class.new(disabled_digits)
       end

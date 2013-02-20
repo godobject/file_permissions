@@ -7,10 +7,11 @@ module GodObject
       attr_accessor :special, :user, :group, :other
 
       extend Forwardable
+      #TODO: why no ModeMixin?
 
       class << self
         include HelperMixin
-        
+
         def build(mode)
           if mode.kind_of?(self)
             mode

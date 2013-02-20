@@ -19,15 +19,7 @@ module GodObject
       include ModeMixin
       include Comparable
 
-      class << self 
-        def build(mode)
-          if mode.kind_of?(Mode)
-            mode
-          else
-            new(mode)
-          end
-        end
-        
+      class << self
         def parse(string)
           result = string.match(PATTERN)
           

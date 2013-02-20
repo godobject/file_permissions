@@ -14,16 +14,6 @@ module GodObject
       include ModeMixin
       include Comparable
 
-      class << self
-        def build(mode)
-          if mode.kind_of?(self)
-            mode
-          else
-            new(mode)
-          end
-        end
-      end
-
       def initialize(mode_components = 0)
         @bit_set = BIT_SET_CONFIGURATION.new(mode_components)
       end
