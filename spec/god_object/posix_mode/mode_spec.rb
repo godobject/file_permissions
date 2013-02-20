@@ -138,13 +138,13 @@ module GodObject
       end
 
       let(:empty_mode) { Mode.parse('---') }
-      let(:sticky_mode)     { Mode.parse('--x') }
-      let(:setgid_mode)     { Mode.parse('-w-') }
-      let(:setgid_sticky_mode)    { Mode.parse('-wx') }
-      let(:setuid_mode)     { Mode.parse('r--') }
-      let(:setuid_sticky_mode)    { Mode.parse('r-x') }
-      let(:setuid_setgid_mode)    { Mode.parse('rw-') }
-      let(:full_mode)   { Mode.parse('rwx') }
+      let(:x_mode)     { Mode.parse('--x') }
+      let(:w_mode)     { Mode.parse('-w-') }
+      let(:wx_mode)    { Mode.parse('-wx') }
+      let(:r_mode)     { Mode.parse('r--') }
+      let(:rx_mode)    { Mode.parse('r-x') }
+      let(:rw_mode)    { Mode.parse('rw-') }
+      let(:rwx_mode)   { Mode.parse('rwx') }
 
       describe "#==" do
         it "should be true if compare to itself" do
