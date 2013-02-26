@@ -172,6 +172,24 @@ module GodObject
         end
       end
 
+      describe "#<=>" do
+        it "should return -1 if the compared SpecialMode has a higher octal representation" do
+          (setgid_mode <=> setuid_mode).should eql -1
+        end
+
+        it "should return 1 if the compared SpecialMode has a lower octal representation" do
+          (setuid_mode <=> setgid_mode).should eql 1
+        end
+
+        it "should return 0 if the compared SpecialMode has an equal octal representation" do
+          (sticky_mode <=> sticky_mode).should eql 0
+        end
+
+        it "should return nil if the compared object is incompatible" do
+          (setgid_mode <=> :something).should eql nil
+        end
+      end
+
       describe "#inspect" do
         it "should give a decent string representation for debugging" do
           full_mode.inspect.should == "#<#{subject.class}: \"sst\">"
@@ -261,6 +279,62 @@ module GodObject
           empty_mode.sticky?.should eql false
         end
       end
+
+    describe "#invert" do
+      it "should create a new SpecialMode with all digits inverted" do
+        result = setuid_sticky_mode.invert
+
+        result.should_not equal setuid_sticky_mode
+        result.should eql setgid_mode
+      end
+    end
+
+    describe "#-" do
+      it "should create a new SpecialMode from the first operand without the digits of the second operand" do
+        result = full_mode - setgid_mode
+
+        result.should_not equal full_mode
+        result.should_not equal setgid_mode
+        result.should eql setuid_sticky_mode
+      end
+    end
+
+    [:intersection, :&].each do |method_name|
+      describe "##{method_name}" do
+        it "should create a new SpecialMode with only those digits enabled that are enabled in both operands" do
+          result = setuid_setgid_mode.public_send(method_name, setgid_sticky_mode)
+
+          result.should_not equal setuid_setgid_mode
+          result.should_not equal setgid_sticky_mode
+          result.should eql setgid_mode
+        end
+      end
+    end
+
+    [:union, :|, :+].each do |method_name|
+      describe "##{method_name}" do
+        it "should create a new SpecialMode with all enabled digits of both operands" do
+          result = setuid_mode.public_send(method_name, setgid_mode)
+
+          result.should_not equal setuid_mode
+          result.should_not equal setgid_mode
+          result.should eql setuid_setgid_mode
+        end
+      end
+    end
+
+    [:symmetric_difference, :^].each do |method_name|
+      describe "##{method_name}" do
+        it "should create a new SpecialMode with only those digits enabled that are enabled in only one operand" do
+          result = full_mode.public_send(method_name, sticky_mode)
+
+          result.should_not equal full_mode
+          result.should_not equal sticky_mode
+          result.should eql setuid_setgid_mode
+        end
+      end
+    end
+      
     end
   end
 end

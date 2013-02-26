@@ -193,6 +193,24 @@ module GodObject
         end
       end
 
+      describe "#<=>" do
+        it "should return -1 if the compared Mode has a higher octal representation" do
+          (w_mode <=> r_mode).should eql -1
+        end
+
+        it "should return 1 if the compared Mode has a lower octal representation" do
+          (r_mode <=> w_mode).should eql 1
+        end
+
+        it "should return 0 if the compared Mode has an equal octal representation" do
+          (x_mode <=> x_mode).should eql 0
+        end
+
+        it "should return nil if the compared object is incompatible" do
+          (w_mode <=> :something).should eql nil
+        end
+      end
+
       describe "#inspect" do
         it "should give a decent string representation for debugging" do
           rwx_mode.inspect.should == "#<#{subject.class}: \"rwx\">"
@@ -293,6 +311,62 @@ module GodObject
           empty_mode.execute?.should eql false
         end
       end
+
+      describe "#invert" do
+        it "should create a new Mode with all digits inverted" do
+          result = rx_mode.invert
+
+          result.should_not equal rx_mode
+          result.should eql w_mode
+        end
+      end
+
+      describe "#-" do
+        it "should create a new Mode from the first operand without the digits of the second operand" do
+          result = rwx_mode - w_mode
+
+          result.should_not equal rwx_mode
+          result.should_not equal w_mode
+          result.should eql rx_mode
+        end
+      end
+
+      [:intersection, :&].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new Mode with only those digits enabled that are enabled in both operands" do
+            result = rw_mode.public_send(method_name, wx_mode)
+
+            result.should_not equal rw_mode
+            result.should_not equal wx_mode
+            result.should eql w_mode
+          end
+        end
+      end
+
+      [:union, :|, :+].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new Mode with all enabled digits of both operands" do
+            result = r_mode.public_send(method_name, w_mode)
+
+            result.should_not equal r_mode
+            result.should_not equal w_mode
+            result.should eql rw_mode
+          end
+        end
+      end
+
+      [:symmetric_difference, :^].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new Mode with only those digits enabled that are enabled in only one operand" do
+            result = rwx_mode.public_send(method_name, x_mode)
+
+            result.should_not equal rwx_mode
+            result.should_not equal x_mode
+            result.should eql rw_mode
+          end
+        end
+      end
+
     end
   end
 end

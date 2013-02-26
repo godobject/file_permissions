@@ -7,7 +7,7 @@ module GodObject
       attr_accessor :special, :user, :group, :other
 
       extend Forwardable
-      #TODO: why no ModeMixin?
+      include HelperMixin
 
       class << self
         include HelperMixin
