@@ -83,6 +83,12 @@ module GodObject
             }.to raise_error(ParserError, 'Duplicate digit in: "xx-"')
           end
 
+          it "should complain about invalid symbols" do
+            expect {
+              Mode.parse('r-a')
+            }.to raise_error(ParserError, 'Invalid format')
+          end
+
           it "should not complain about duplicate null symbols" do
             expect {
               Mode.parse('-r-')

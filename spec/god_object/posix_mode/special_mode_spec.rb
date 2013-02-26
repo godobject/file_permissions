@@ -23,6 +23,84 @@ module GodObject
         end
       end
 
+      describe ".parse" do
+
+        context "given an octal representation" do
+          it "should return an empty set if a 0 is given" do
+            SpecialMode.parse('0').should eql SpecialMode.new(Set[])
+          end
+
+          it "should return a set including the sticky token if a 1 is given" do
+            SpecialMode.parse('1').should eql SpecialMode.new(Set[:sticky])
+          end
+
+          it "should return a set including the setgid token if a 2 is given" do
+            SpecialMode.parse('2').should eql SpecialMode.new(Set[:setgid])
+          end
+
+          it "should return a set including the setgid and sticky tokens if a 3 is given" do
+            SpecialMode.parse('3').should eql SpecialMode.new(Set[:setgid, :sticky])
+          end
+
+          it "should return a set including the setuid token if a 4 is given" do
+            SpecialMode.parse('4').should eql SpecialMode.new(Set[:setuid])
+          end
+
+          it "should return a set including the setuid and sticky tokens if a 5 is given" do
+            SpecialMode.parse('5').should eql SpecialMode.new(Set[:setuid, :sticky])
+          end
+
+          it "should return a set including the setuid and setgid tokens if a 6 is given" do
+            SpecialMode.parse('6').should eql SpecialMode.new(Set[:setuid, :setgid])
+          end
+
+          it "should return a set including the setuid, setgid and sticky tokens if a 7 is given" do
+            SpecialMode.parse('7').should eql SpecialMode.new(Set[:setuid, :setgid, :sticky])
+          end
+
+          it "should raise an exception if 8 is given" do
+            expect {
+              SpecialMode.parse('8')
+            }.to raise_error(ParserError, 'Invalid format')
+          end
+        end
+
+        context "representation in symbolic mode" do
+          it "should complain about a short representation" do
+            expect {
+              SpecialMode.parse('st')
+            }.to raise_error(ParserError, 'Invalid format')
+          end
+
+          it "should complain about invalid symbols" do
+            expect {
+              SpecialMode.parse('s-a')
+            }.to raise_error(ParserError, 'Invalid format')
+          end
+
+          it "should complain about invalid order" do
+            expect {
+              SpecialMode.parse('tss')
+            }.to raise_error(ParserError, 'Invalid format')
+          end
+
+          it "should parse the setuid symbol" do
+            result = SpecialMode.parse('s--')
+            result.should eql SpecialMode.new(Set[:setuid])
+          end
+
+          it "should parse the setgid symbol" do
+            result = SpecialMode.parse('-s-')
+            result.should eql SpecialMode.new(Set[:setgid])
+          end
+
+          it "should parse the sticky symbol" do
+            result = SpecialMode.parse('--t')
+            result.should eql SpecialMode.new(Set[:sticky])
+          end
+        end
+      end
+
       describe ".new" do
         it "should handle no parameters" do
           mode = SpecialMode.new
@@ -96,38 +174,27 @@ module GodObject
 
       describe "#inspect" do
         it "should give a decent string representation for debugging" do
-          full_mode.inspect.should == "#<#{subject.class}: \"rwx\">"
-          setuid_setgid_mode.inspect.should == "#<#{subject.class}: \"rw-\">"
-          setuid_sticky_mode.inspect.should == "#<#{subject.class}: \"r-x\">"
-          setgid_sticky_mode.inspect.should == "#<#{subject.class}: \"-wx\">"
-          setuid_mode.inspect.should == "#<#{subject.class}: \"r--\">"
-          setgid_mode.inspect.should == "#<#{subject.class}: \"-w-\">"
-          sticky_mode.inspect.should == "#<#{subject.class}: \"--x\">"
+          full_mode.inspect.should == "#<#{subject.class}: \"sst\">"
+          setuid_setgid_mode.inspect.should == "#<#{subject.class}: \"ss-\">"
+          setuid_sticky_mode.inspect.should == "#<#{subject.class}: \"s-t\">"
+          setgid_sticky_mode.inspect.should == "#<#{subject.class}: \"-st\">"
+          setuid_mode.inspect.should == "#<#{subject.class}: \"s--\">"
+          setgid_mode.inspect.should == "#<#{subject.class}: \"-s-\">"
+          sticky_mode.inspect.should == "#<#{subject.class}: \"--t\">"
           empty_mode.inspect.should == "#<#{subject.class}: \"---\">"
         end
       end
 
       describe "#to_s" do
-        it "should represent attributes as string in long mode" do
-          full_mode.to_s(:long).should == "rwx"
-          setuid_setgid_mode.to_s(:long).should == "rw-"
-          setuid_sticky_mode.to_s(:long).should == "r-x"
-          setgid_sticky_mode.to_s(:long).should == "-wx"
-          setuid_mode.to_s(:long).should  == "r--"
-          setgid_mode.to_s(:long).should  == "-w-"
-          sticky_mode.to_s(:long).should  == "--x"
+        it "should represent attributes as string" do
+          full_mode.to_s(:long).should == "sst"
+          setuid_setgid_mode.to_s(:long).should == "ss-"
+          setuid_sticky_mode.to_s(:long).should == "s-t"
+          setgid_sticky_mode.to_s(:long).should == "-st"
+          setuid_mode.to_s(:long).should  == "s--"
+          setgid_mode.to_s(:long).should  == "-s-"
+          sticky_mode.to_s(:long).should  == "--t"
           empty_mode.to_s(:long).should  == "---"
-        end
-
-        it "should represent attributes as string in short mode" do
-          full_mode.to_s(:short).should == "rwx"
-          setuid_setgid_mode.to_s(:short).should == "rw"
-          setuid_sticky_mode.to_s(:short).should == "rx"
-          setgid_sticky_mode.to_s(:short).should == "wx"
-          setuid_mode.to_s(:short).should  == "r"
-          setgid_mode.to_s(:short).should  == "w"
-          sticky_mode.to_s(:short).should  == "x"
-          empty_mode.to_s(:short).should  == "-"
         end
       end
 
