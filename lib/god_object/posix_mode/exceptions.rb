@@ -6,6 +6,7 @@ module GodObject
     class Error < StandardError; end
 
     class ParserError < Error; end
+    class NotImplementedError < Error; end
 
   end
 end

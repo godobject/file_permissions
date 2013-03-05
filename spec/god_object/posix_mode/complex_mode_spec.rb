@@ -79,25 +79,22 @@ module GodObject
           test_file.chmod(05641)
 
           test_link = (@test_directory + 'test_link')
-          test_link.make_link(test_file)
+          test_link.make_symlink(test_file)
 
           complex_mode = ComplexMode.from_file(test_link)
           complex_mode.to_i.should eql 05641
         end
 
         it "should create a complex mode from the symlink itself if in 'target symlinks' mode" do
-          pending "Find out why lchmod isn't implemented on Linux"
-
           test_file = (@test_directory + 'test_file')
           FileUtils.touch(test_file)
           test_file.chmod(05641)
 
           test_link = (@test_directory + 'test_link')
-          test_link.make_link(test_file)
-          test_link.lchmod(00411)
+          test_link.make_symlink(test_file)
 
           complex_mode = ComplexMode.from_file(test_link, :target_symlinks)
-          complex_mode.to_i.should eql 00411
+          complex_mode.to_i.should eql 00777
         end
       end
 
@@ -159,7 +156,7 @@ module GodObject
           FileUtils.touch(test_file)
 
           test_link = (@test_directory + 'test_link')
-          test_link.make_link(test_file)
+          test_link.make_symlink(test_file)
 
           complex_mode = ComplexMode.new(05641)
           complex_mode.assign_to_file(test_link)
@@ -167,14 +164,28 @@ module GodObject
           (test_file.stat.mode & 0b111_111_111_111).should eql 05641
         end
 
+        it "should complain about missing lchmod function in 'target symlinks' mode" do
+          test_file = (@test_directory + 'test_file')
+          FileUtils.touch(test_file)
+
+          test_link = (@test_directory + 'test_link')
+          test_link.make_symlink(test_file)
+
+          complex_mode = ComplexMode.new(05641)
+
+          expect {
+            complex_mode.assign_to_file(test_link, :target_symlinks)
+          }.to raise_error(NotImplementedError, "lchmod function is not available in current OS or Ruby environment")
+        end
+
         it "should assign a complex mode to the symlink itself in 'target symlinks' mode" do
-          pending "Find out why lchmod isn't implemented on Linux"
+          pending "This test is intended for systems where there is a lchmod function. No idea which system that may be. Have fun."
 
           test_file = (@test_directory + 'test_file')
           FileUtils.touch(test_file)
 
           test_link = (@test_directory + 'test_link')
-          test_link.make_link(test_file)
+          test_link.make_symlink(test_file)
 
           complex_mode = ComplexMode.new(05641)
           complex_mode.assign_to_file(test_link, :target_symlinks)

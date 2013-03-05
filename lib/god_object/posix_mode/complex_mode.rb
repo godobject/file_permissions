@@ -70,7 +70,11 @@ module GodObject
         when :resolve_symlinks
           file.chmod(to_i)
         when :target_symlinks
-          file.lchmod(to_i)
+          begin
+            file.lchmod(to_i)
+          rescue ::NotImplementedError, Errno::ENOSYS
+            raise NotImplementedError, "lchmod function is not available in current OS or Ruby environment"
+          end
         else
           raise ArgumentError, "Invalid symlink handling: #{symlink_handling.inspect}"
         end
