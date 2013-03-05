@@ -96,6 +96,15 @@ module GodObject
           complex_mode = ComplexMode.from_file(test_link, :target_symlinks)
           complex_mode.to_i.should eql 00777
         end
+
+        it "should complain about an invalid symlink handling" do
+          test_file = (@test_directory + 'test_file')
+          FileUtils.touch(test_file)
+
+          expect {
+            ComplexMode.from_file(test_file, :invalid)
+          }.to raise_error(ArgumentError, "Invalid symlink handling: :invalid")
+        end
       end
 
       describe "#user" do
@@ -192,6 +201,17 @@ module GodObject
 
           (test_file.stat.mode & 0b111_111_111_111).should eql 05641
         end
+
+        it "should complain about an invalid symlink handling" do
+          test_file = (@test_directory + 'test_file')
+          FileUtils.touch(test_file)
+
+          complex_mode = ComplexMode.new(05641)
+
+          expect {
+            complex_mode.assign_to_file(test_file, :invalid)
+          }.to raise_error(ArgumentError, "Invalid symlink handling: :invalid")
+        end
       end
 
       describe "#inspect" do
@@ -229,6 +249,13 @@ module GodObject
           complex_mode = ComplexMode.new(07004)
           complex_mode.inspect.should eql '#<GodObject::PosixMode::ComplexMode: "--S--Sr-T">'
         end        
+      end
+
+      describe "#inspect" do
+        it "should give a decent string representation for debugging" do
+          complex_mode = ComplexMode.new(07004)
+          complex_mode.inspect.should eql '#<GodObject::PosixMode::ComplexMode: "--S--Sr-T">'
+        end
       end
         
       describe "#to_s" do
