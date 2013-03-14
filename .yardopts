@@ -1,1 +1,2 @@
 --output-dir=doc/lib
+--embed-mixins

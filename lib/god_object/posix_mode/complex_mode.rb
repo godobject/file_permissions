@@ -1,10 +1,40 @@
 # encoding: UTF-8
+=begin
+Copyright Alexander E. Fischer <aef@raxys.net>, 2012-2013
+
+This file is part of PosixMode.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+=end
 
 module GodObject
   module PosixMode
 
+    # An aggregate of Mode and SpecialMode to represent normal file
+    # permissions in a POSIX environment.
     class ComplexMode
-      attr_accessor :special, :user, :group, :other
+
+      # @return [GodObject::PosixMode::Mode] permissions for the owner
+      attr_accessor :user
+
+      # @return [GodObject::PosixMode::Mode] permissions for the owning group
+      attr_accessor :group
+
+      # @return [GodObject::PosixMode::Mode] permissions for everyone else
+      attr_accessor :other
+
+      # @return [GodObject::PosixMode::SpecialMode] special file flags
+      attr_accessor :special
 
       extend Forwardable
       include HelperMixin
@@ -12,6 +42,26 @@ module GodObject
       class << self
         include HelperMixin
 
+        # @overload build(complex_mode)
+        #   Returns an existing instance of GodObject::PosixMode::ComplexMode
+        #   @param [GodObject::PosixMode::ComplexMode] complex_mode an already
+        #     existing ComplexMode
+        #   @return [GodObject::PosixMode::ComplexMode] the same ComplexMode
+        #      object
+        #
+        # @overload build(numeric)
+        #   Returns a new ComplexMode object with the given numeric
+        #   representation.
+        #   @param [Integer] numeric a numeric representation
+        #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+        #
+        # @overload build(enabled_digits)
+        #   Returns a new ComplexMode object with the given enabled digits
+        #   @param [Array<:user_read, :user_write, :user_execute,
+        #     :group_read, :group_write, :group_execute, :other_read,
+        #     :other_write, :other_execute, :setuid, :setgid, :sticky>]
+        #     enabled_digits a list of enabled digits
+        #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
         def build(mode)
           if mode.kind_of?(self)
             mode
@@ -20,6 +70,13 @@ module GodObject
           end
         end
 
+        # Creates a new complex mode from filesystem object given by path.
+        #
+        # @param [Pathname, String] path path of the source filesystem object
+        # @param [:resolve_symlinks, :target_symlinks] symlink_handling if set
+        #   to :target_symlinks and the target is a symlink, the symlink will
+        #   not be resolved but is itself used as source. By default, the
+        #   symlink will be resolved
         def from_file(path, symlink_handling = :resolve_symlinks)
           file = to_pathname(path)
 
@@ -34,6 +91,19 @@ module GodObject
         end
       end
 
+      # @overload initialize(numeric)
+      #   Returns a new ComplexMode object with the given numeric
+      #   representation.
+      #   @param [Integer] numeric a numeric representation
+      #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+      #
+      # @overload initialize(enabled_digits)
+      #   Returns a new ComplexMode object with the given enabled digits
+      #   @param [Array<:user_read, :user_write, :user_execute, :group_read,
+      #     :group_write, :group_execute, :other_read, :other_write,
+      #     :other_execute, :setuid, :setgid, :sticky>] enabled_digits a list
+      #     of enabled digits
+      #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
       def initialize(mode_components = 0)
         sub_mode_components = Hash.new{|hash, key| hash[key] = Set.new }
 
@@ -63,6 +133,13 @@ module GodObject
         @special = SpecialMode.new(sub_mode_components[:special])
       end
 
+      # Assigns the mode to a filesystem object given by path.
+      #
+      # @param [Pathname, String] path path of the target filesystem object
+      # @param [:resolve_symlinks, :target_symlinks] symlink_handling if set to
+      #   :target_symlinks and the target is a symlink, the symlink will not be
+      #   resolved but is itself used as target. By default, the symlink will
+      #   be resolved
       def assign_to_file(path, symlink_handling = :resolve_symlinks)
         file = to_pathname(path)
 
@@ -80,10 +157,18 @@ module GodObject
         end
       end
 
+      # Represents the ComplexMode as String for debugging.
+      #
+      # @return [String] a String representation for debugging
       def inspect
         "#<#{self.class}: #{to_s.inspect}>"
       end
 
+      # Represents the ComplexMode as String.
+      #
+      # Uses the format used by the `ls` utility.
+      #
+      # @return [String] a String representation
       def to_s
         string = ''
 
@@ -117,6 +202,9 @@ module GodObject
         string
       end
 
+      # Converts the ComplexMode to a four-digit octal representation
+      #
+      # @return [Integer] four-digit octal representation
       def to_i
         result = 0
 
@@ -127,6 +215,29 @@ module GodObject
         result
       end
 
+      # @!method setuid
+      #   @attribute setuid [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#setuid)
+      #
+      # @!method setuid?
+      #   @attribute setuid? [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#setuid?)
+      #
+      # @!method setgid
+      #   @attribute setgid [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#setgid)
+      #
+      # @!method setgid?
+      #   @attribute setgid? [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#setgid?)
+      #
+      # @!method sticky
+      #   @attribute sticky [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#sticky)
+      #
+      # @!method sticky?
+      #   @attribute sticky? [readonly]
+      #   @return (see GodObject::PosixMode::SpecialMode#sticky?)
       def_delegators :@special, :setuid?, :setgid?, :sticky?
 
     end
