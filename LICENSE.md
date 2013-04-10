@@ -1,8 +1,6 @@
-# encoding: UTF-8
-=begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2013
 
-This file is part of PosixMode.
+PosixMode is licensed under the following ISC-style license:
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -15,34 +13,3 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
-=end
-
-require 'bundler/gem_tasks'
-require 'rake'
-require 'pathname'
-require 'yard'
-require 'rspec/core/rake_task'
-
-RSpec::Core::RakeTask.new
-
-YARD::Rake::YardocTask.new('doc')
-
-desc "Removes temporary project files"
-task :clean do
-  %w{doc/lib coverage pkg .yardoc .rbx Gemfile.lock}.map{|name| Pathname.new(name) }.each do |path|
-    path.rmtree if path.exist?
-  end
-
-  Pathname.glob('*.gem').each &:delete
-  Pathname.glob('**/*.rbc').each &:delete
-end
-
-desc "Opens an interactive console with the library loaded"
-task :console do
-  Bundler.setup
-  require 'pry'
-  require 'posix_mode'
-  Pry.start(GodObject::PosixMode)
-end
-
-task :default => :spec
