@@ -14,6 +14,14 @@ module GodObject
           mode.should equal existing_mode
         end
 
+        it "should create a new instance through parsing if given a String" do
+          argument = 'r-x'
+
+          SpecialMode.should_receive(:parse).once.with(argument)
+
+          SpecialMode.build(argument)
+        end
+
         it "should create a new instance if given something else" do
           argument = 4
 
@@ -114,8 +122,17 @@ module GodObject
           mode.state.should eql attributes
         end
 
+        it "should handle a Set" do
+          mode = SpecialMode.new(Set[:setuid, :sticky])
+
+          mode.state.should eql(setuid: true, setgid: false, sticky: true)
+          mode.setuid?.should eql true
+          mode.setgid?.should eql false
+          mode.sticky?.should eql true
+        end
+
         it "should handle an array of mode components" do
-          mode = SpecialMode.new([:setuid, :setgid, :sticky])
+          mode = SpecialMode.new(:setuid, :setgid, :sticky)
           attributes = { setuid: true, setgid: true, sticky: true }
 
           mode.state.should eql attributes

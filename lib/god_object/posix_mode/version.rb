@@ -20,7 +20,10 @@ PERFORMANCE OF THIS SOFTWARE.
 module GodObject
   module PosixMode
 
-    # Version of the loaded library according to SemVer rules.
+    # The currently loaded library version
+    #
+    # Using Semantic Versioning (2.0.0-rc.1) rules
+    # @see http://semver.org/
     VERSION = '0.1.0'.freeze
     
   end

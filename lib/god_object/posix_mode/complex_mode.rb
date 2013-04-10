@@ -104,16 +104,22 @@ module GodObject
       #     :other_execute, :setuid, :setgid, :sticky>] enabled_digits a list
       #     of enabled digits
       #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
-      def initialize(mode_components = 0)
+      def initialize(*mode_components)
         sub_mode_components = Hash.new{|hash, key| hash[key] = Set.new }
 
-        if mode_components.respond_to?(:to_int)
+        if mode_components.size == 1 && mode_components.first.respond_to?(:to_int)
+          integer = mode_components.first
+
           [:other, :group, :user, :special].each do |mode|
-            sub_mode_components[mode] = mode_components & 0b111
-            mode_components = mode_components >> 3 unless mode == :special
+            sub_mode_components[mode] = integer & 0b111
+            integer = integer >> 3 unless mode == :special
           end
         else
-          mode_components.each do |digit|
+          if mode_components.size == 1 && mode_components.first.is_a?(Enumerable)
+            mode_components = mode_components.first
+          end
+
+          mode_components.flatten.each do |digit|
             case digit
             when /^user_(.*)$/
               sub_mode_components[:user] << $1.to_sym

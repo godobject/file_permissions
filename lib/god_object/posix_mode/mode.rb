@@ -88,8 +88,8 @@ module GodObject
       # @overload initialize(enabled_digits)
       #   @param [Array<:read, :write, :execute>] enabled_digits a list of
       #     enabled digits
-      def initialize(mode_components = 0)
-        @bit_set = BIT_SET_CONFIGURATION.new(mode_components)
+      def initialize(*mode_components)
+        @bit_set = BIT_SET_CONFIGURATION.new(*mode_components)
       end
 
       # @!method enabled_digits

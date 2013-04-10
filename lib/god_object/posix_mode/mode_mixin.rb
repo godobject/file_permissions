@@ -40,14 +40,20 @@ module GodObject
         #   @param [GodObject::PosixMode::ModeMixin] mode an already existing
         #     Mode
         #
+        # @overload build(string)
+        #   @param [String] string a String representation
+        #
         # @overload build(numeric)
         #   @param [Integer] numeric a numeric representation
         #
         # @overload build(enabled_digits)
         #   @param [Array<Symbol>] enabled_digits a list of enabled digits
         def build(mode)
-          if mode.kind_of?(self)
+          case
+          when mode.kind_of?(self)
             mode
+          when mode.respond_to?(:to_str)
+            parse(mode)
           else
             new(mode)
           end

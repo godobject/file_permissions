@@ -31,7 +31,8 @@ module GodObject
         end
 
         it "should handle a list of mode components" do
-          complex_mode = ComplexMode.new([:user_read, :user_write, :user_execute, :group_read, :group_execute, :other_execute, :setgid, :sticky])
+          complex_mode = ComplexMode.new(
+            :user_read, :user_write, :user_execute, :group_read, :group_execute, :other_execute, :setgid, :sticky)
 
           complex_mode.user.should eql Mode.parse('rwx')
           complex_mode.group.should eql Mode.parse('rx')
@@ -39,9 +40,29 @@ module GodObject
           complex_mode.special.should eql SpecialMode.parse('-st')
         end
 
+        it "should handle a Set of mode components" do
+           mode = ComplexMode.new(Set[:user_read, :group_read, :group_execute, :setuid, :sticky])
+
+           mode.user.read?.should    eql true
+           mode.user.write?.should   eql false
+           mode.user.execute?.should eql false
+
+           mode.group.read?.should    eql true
+           mode.group.write?.should   eql false
+           mode.group.execute?.should eql true
+
+           mode.other.read?.should    eql false
+           mode.other.write?.should   eql false
+           mode.other.execute?.should eql false
+
+           mode.special.setuid?.should eql true
+           mode.special.setgid?.should eql false
+           mode.special.sticky?.should eql true
+         end
+
         it "should complain about invalid input" do
           expect {
-            ComplexMode.new([:wrong, :user_execute])
+            ComplexMode.new(:wrong, :user_execute)
           }.to raise_error(ArgumentError)
         end
       end  

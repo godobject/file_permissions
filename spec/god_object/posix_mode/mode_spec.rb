@@ -13,6 +13,14 @@ module GodObject
           mode.should equal existing_mode
         end
 
+        it "should create a new instance through parsing if given a String" do
+          argument = 's-t'
+
+          Mode.should_receive(:parse).once.with(argument)
+
+          Mode.build(argument)
+        end
+
         it "should create a new instance if given something else" do
           argument = 4
 
@@ -126,17 +134,17 @@ module GodObject
           mode.state.should eql attributes
         end
         
-        it "should handle a string representation" do
-          mode = Mode.parse('rwx')
+        it "should handle a Set" do
+          mode = Mode.new(Set[:read, :execute])
 
-          mode.state.should eql(read: true, write: true, execute: true)
+          mode.state.should eql(read: true, write: false, execute: true)
           mode.read?.should eql true
-          mode.write?.should eql true
+          mode.write?.should eql false
           mode.execute?.should eql true
         end
-        
+
         it "should handle an array of mode components" do
-          mode = Mode.new([:read, :write, :execute])
+          mode = Mode.new(:read, :write, :execute)
           attributes = { read: true, write: true, execute: true }
 
           mode.state.should eql attributes

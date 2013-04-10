@@ -21,8 +21,14 @@ require 'set'
 require 'forwardable'
 require 'bit_set'
 
-# Namespace for projects of the GodObject team
+# Namespace for projects of the GodObject team <dev@godobject.net>.
 #
+# If you want to be able to simply type Example instead of GodObject::Example
+# to address classes in this namespace simply write the following before using
+# the classes.
+#
+# @example Including the namespace
+#   include GodObject
 # @see https://www.godobject.net/
 module GodObject
 
