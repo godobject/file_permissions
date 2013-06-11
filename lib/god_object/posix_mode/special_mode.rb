@@ -22,8 +22,8 @@ module GodObject
 
     # Represents one component of the normal file mode in POSIX environments.
     #
-    # The SpecialMode is basically a bit set consisting of the digits :setuid,
-    # :setgid and :sticky.
+    # The SpecialMode is basically an immutable bit set consisting of the
+    # digits :setuid, :setgid and :sticky.
     class SpecialMode
       octal_mode = /(?<octal_mode>[0-7])/
       digit_mode = /(?<digit_mode>(?:-|s){2}(?:-|t))/

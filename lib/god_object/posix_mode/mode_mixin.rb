@@ -77,16 +77,6 @@ module GodObject
         self.class.new(enabled_digits + other)
       end
 
-      # @param [GodObject::PosixMode::ModeMixin, Array<Symbol>] other another
-      #   Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
-      #   digits of the current without the enabled digits of other
-      def -(other)
-        other = other.enabled_digits if other.respond_to?(:enabled_digits)
-
-        self.class.new(enabled_digits - other)
-      end
-
       # @param [GodObject::PosixMode::ModeMixin, Integer] other another Mode
       # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
       #   digits of the current and other
@@ -97,6 +87,18 @@ module GodObject
       end
 
       alias | union
+
+      # @param [GodObject::PosixMode::ModeMixin, Array<Symbol>] other another
+      #   Mode
+      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
+      #   digits of the current without the enabled digits of other
+      def difference(other)
+        other = other.enabled_digits if other.respond_to?(:enabled_digits)
+
+        self.class.new(enabled_digits - other)
+      end
+
+      alias - difference
 
       # @param [GodObject::PosixMode::ModeMixin, Integer] other another Mode
       # @return [GodObject::PosixMode::ModeMixin] a new Mode with only those

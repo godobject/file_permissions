@@ -22,8 +22,8 @@ module GodObject
 
     # Represents one component of the normal file mode in POSIX environments.
     #
-    # The Mode is basically a bit set consisting of the digits :read, :write
-    # and :execute.
+    # The Mode is basically an immutable bit set consisting of the digits
+    # :read, :write and :execute.
     class Mode
       octal_mode = /(?<octal_mode>[0-7])/
       digit_mode = /(?<digit_mode>(?:-|r|w|x){1,3})/

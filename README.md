@@ -14,7 +14,13 @@ https://secure.travis-ci.org/god_object/posix_mode)
 Description
 -----------
 
-TODO: PosixMode is a Ruby library
+PosixMode is a Ruby library providing an object representation of the common
+POSIX file system permission bit sets called modes. It can handle the generic
+read, write and execute permissions, as well as the setuid, setgid and sticky
+flags. Modes can be read from file system objects, parsed from typical string
+representations or simply defined by their octal numbers. They can then be
+manipulated through binary logic operators and written back to file system
+objects.
 
 Features / Problems
 -------------------
@@ -63,7 +69,175 @@ In a bundler Gemfile you should use the following:
 gem 'posix_mode'
 ~~~~~
 
-FIXME: Add further documentation.
+If you want to be able to simply call the class names inside the
+GodObject::PosixMode namespace you can include it into the current scope by
+executing the following statement:
+
+~~~~~ ruby
+include GodObject::PosixMode
+~~~~~
+
+The following documentation assumes that you did include the namespace.
+
+### The ComplexMode
+
+The complete regular permissions of a POSIX file system object are represented
+by the ComplexMode. It aggregates three Mode objects which define the read,
+write and execute permissions for the owner, the owning group and others
+respectively. Additionally it holds an instance of the SpecialMode to define
+the state of the setuid, setgid and sticky flags of the file system object.
+
+A ComplexMode can be created from a typical octal mode representation:
+
+~~~~~ ruby
+ComplexMode.new(0644)
+# => #<GodObject::PosixMode::ComplexMode: "rw-r--r--">
+
+ComplexMode.new(03644)
+# => #<GodObject::PosixMode::ComplexMode: "rw-r-Sr-T">
+~~~~~
+
+Or simply by a list of permission digits:
+
+~~~~~ ruby
+ComplexMode.new(:user_write, :group_execute, :other_read, :sticky)
+# => #<GodObject::PosixMode::ComplexMode: "-w---xr-T">
+~~~~~
+
+It can also be read from the file system like this:
+
+~~~~~ ruby
+mode = ComplexMode.from_file('/path/to/a/file')
+
+# => #<GodObject::PosixMode::ComplexMode: "rwsr-x---">
+~~~~~
+
+Note that it also accepts a Pathname object instead of a path String.
+
+The ComplexMode object can now be used to access the permissions:
+
+~~~~~ ruby
+mode.user.execute?
+# => true
+
+mode.group.read?
+# => true
+
+mode.other.write?
+# => false
+
+mode.setuid?
+# => true
+~~~~~
+
+Also you can modify the ComplexMode by replacing its aggregated Mode objects:
+
+~~~~~ ruby
+mode.other = Mode.new(:read, :execute)
+
+mode
+# => #<GodObject::PosixMode::ComplexMode: "rwsr-xr-x">
+~~~~~
+
+~~~~~ ruby
+mode.special = SpecialMode.new(:setuid, :setgid)
+
+mode
+# => #<GodObject::PosixMode::ComplexMode: "rwsr-sr-x">
+~~~~~
+
+The ComplexMode can be again written to a file system object be issuing the
+following:
+
+~~~~~ ruby
+mode.assign_to_file('/path/to/some/other/file')
+~~~~~
+
+Note that it also accepts a Pathname object instead of a path String.
+
+### Mode and SpecialMode
+
+Both Mode and SpecialMode are intended to be parts of the ComplexMode.
+Instances are immutable and can therefore only be defined while creation.
+
+New instances can either be created by a list of permission digits:
+
+~~~~~ ruby
+Mode.new(:read, :write, :execute)
+# => #<GodObject::PosixMode::Mode: "rwx">
+~~~~~
+
+~~~~~ ruby
+SpecialMode.new(:setuid, :setgid, :sticky)
+# => #<GodObject::PosixMode::SpecialMode: "sst">
+~~~~~
+
+Or be defined by their octal digit representation:
+
+~~~~~ ruby
+Mode.new(5)
+# => #<GodObject::PosixMode::Mode: "r-x">
+~~~~~
+
+~~~~~ ruby
+SpecialMode.new(3)
+# => #<GodObject::PosixMode::SpecialMode: "-st">
+~~~~~
+
+Another way to create new instances is to parse a String representation:
+
+~~~~~ ruby
+regular_mode = Mode.parse('xr')
+# => #<GodObject::PosixMode::Mode: "r-x">
+~~~~~
+
+~~~~~ ruby
+special_mode = SpecialMode.new('-st')
+# => #<GodObject::PosixMode::SpecialMode: "-st">
+~~~~~
+
+Note that instead of the Mode, when parsing a SpecialMode, the String
+representation has to be in the correct order and including dashes for disabled
+digits because the SpecialMode representation doesn't have unique character
+representations for each permission digit.
+
+Both Mode and SpecialMode can then be asked for the state of their digits:
+
+~~~~~ ruby
+regular_mode.read?
+# => true
+regular_mode.write?
+# => false
+regular_mode.execute?
+# => true
+
+regular_mode.state
+# => {:read => true, :write => false, :execute => true}
+
+regular_mode.enabled_digits
+# => #<Set: {:read, :execute}>
+
+regular_mode.disabled_digits
+# => #<Set: {:write}>
+~~~~~
+
+~~~~~ ruby
+special_mode.setuid?
+# => false
+special_mode.setgid?
+# => true
+special_mode.sticky?
+# => true
+
+special_mode.state
+# => {:setuid => false, :setgid => true, :sticky => true}
+
+special_mode.enabled_digits
+# => #<Set: {:setgid, :sticky}>
+
+special_mode.disabled_digits
+# => #<Set: {:setuid}>
+~~~~~
 
 Requirements
 ------------
