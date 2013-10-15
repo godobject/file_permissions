@@ -17,27 +17,43 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-$:.push File.expand_path("../lib", __FILE__)
-require "god_object/posix_mode/version"
+require File.expand_path('../lib/god_object/posix_mode/version', __FILE__)
 
-Gem::Specification.new do |s|
-  s.name        = "posix_mode"
-  s.version     = GodObject::PosixMode::VERSION.dup
-  s.authors     = ["Alexander E. Fischer", "Oliver Feldt"]
-  s.email       = ["aef@raxys.net", "oliver.feldt@gmail.com"]
-  s.homepage    = "https://aef.name"
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+Gem::Specification.new do |gem|
+  gem.name        = "posix_mode"
+  gem.version     = GodObject::PosixMode::VERSION.dup
+  gem.authors     = ["Alexander E. Fischer", "Oliver Feldt", "Andreas Wurm"]
+  gem.email       = ["aef@godobject.net", "of@godobject.net", "aw@godobject.net"]
+  gem.description = <<-DESCRIPTION
+PosixMode is a Ruby library providing an object representation of the common
+POSIX file system permission bit sets called modes. It can handle the generic
+read, write and execute permissions, as well as the setuid, setgid and sticky
+flags. Modes can be read from file system objects, parsed from typical string
+representations or simply defined by their octal numbers. They can then be
+manipulated through binary logic operators and written back to file system
+objects.
+  DESCRIPTION
+  gem.summary  = "Representation and manipulation of basic POSIX file system permissions in Ruby"
+  gem.homepage = "https://www.godobject.net/"
+  gem.license  = "ISC"
+  gem.has_rdoc = "yard"
+  gem.extra_rdoc_files  = ["HISTORY.md", "LICENSE.md"]
+  gem.rubyforge_project = nil
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  gem.files         = `git ls-files`.split($\)
+  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.require_paths = ["lib"]
 
-  s.add_development_dependency 'rspec', '2.12.0'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'pry'
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'yard'
-  s.add_dependency 'bit_set'
+  gem.required_ruby_version = '>= 1.9.3'
+
+  gem.add_development_dependency('rake')
+  gem.add_development_dependency('bundler')
+  gem.add_development_dependency('rspec', '~> 2.12.0')
+  gem.add_development_dependency('simplecov')
+  gem.add_development_dependency('pry')
+  gem.add_development_dependency('yard')
+
+  gem.cert_chain = "#{ENV['GEM_CERT_CHAIN']}".split(':')
+  gem.signing_key = ENV['GEM_SIGNING_KEY']
 end
