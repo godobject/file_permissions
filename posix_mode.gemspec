@@ -20,20 +20,21 @@ PERFORMANCE OF THIS SOFTWARE.
 require File.expand_path('../lib/god_object/posix_mode/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name        = "posix_mode"
-  gem.version     = GodObject::PosixMode::VERSION.dup
-  gem.authors     = ["Alexander E. Fischer", "Oliver Feldt", "Andreas Wurm"]
-  gem.email       = ["aef@godobject.net", "of@godobject.net", "aw@godobject.net"]
+  gem.name    = "posix_mode"
+  gem.version = GodObject::PosixMode::VERSION.dup
+  gem.authors = ["Oliver Feldt", "Alexander E. Fischer", "Axel Sorge", "Andreas Wurm"]
+  gem.email   = ["of@godobject.net", "aef@godobject.net", "as@godobject.net", "aw@godobject.net"]
   gem.description = <<-DESCRIPTION
 PosixMode is a Ruby library providing an object representation of the common
-POSIX file system permission bit sets called modes. It can handle the generic
-read, write and execute permissions, as well as the setuid, setgid and sticky
-flags. Modes can be read from file system objects, parsed from typical string
-representations or simply defined by their octal numbers. They can then be
-manipulated through binary logic operators and written back to file system
-objects.
+POSIX file system permission bit sets called modes.
+
+It can handle the generic read, write and execute permissions, as well as the
+setuid, setgid and sticky flags. Modes can be read from file system objects,
+parsed from typical string representations or simply defined by their numeric
+representation. They can then be manipulated through binary logic operators and
+written back to file system objects.
   DESCRIPTION
-  gem.summary  = "Representation and manipulation of basic POSIX file system permissions in Ruby"
+  gem.summary  = "Representation and manipulation of basic POSIX file system permissions in Ruby."
   gem.homepage = "https://www.godobject.net/"
   gem.license  = "ISC"
   gem.has_rdoc = "yard"
@@ -47,9 +48,11 @@ objects.
 
   gem.required_ruby_version = '>= 1.9.3'
 
+  gem.add_dependency('bit_set', '0.1.0')
+
   gem.add_development_dependency('rake')
   gem.add_development_dependency('bundler')
-  gem.add_development_dependency('rspec', '~> 2.12.0')
+  gem.add_development_dependency('rspec', '~> 2.14.1')
   gem.add_development_dependency('simplecov')
   gem.add_development_dependency('pry')
   gem.add_development_dependency('yard')

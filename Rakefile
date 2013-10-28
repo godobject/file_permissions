@@ -29,7 +29,7 @@ YARD::Rake::YardocTask.new('doc')
 
 desc "Removes temporary project files"
 task :clean do
-  %w{doc/lib coverage pkg .yardoc .rbx Gemfile.lock}.map{|name| Pathname.new(name) }.each do |path|
+  %w{doc/api coverage pkg .yardoc .rbx Gemfile.lock}.map{|name| Pathname.new(name) }.each do |path|
     path.rmtree if path.exist?
   end
 
@@ -37,7 +37,7 @@ task :clean do
   Pathname.glob('**/*.rbc').each &:delete
 end
 
-desc "Opens an interactive console with the library loaded"
+desc "Opens an interactive console with the project code loaded"
 task :console do
   Bundler.setup
   require 'pry'

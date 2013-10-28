@@ -17,9 +17,11 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-# Specify your gem's dependencies in posix_acl.gemspec
+# Gem dependencies are specified in the .gemspec file
 gemspec
 
 gem 'bit_set', path: '../bit_set'
+
+gem 'coveralls', require: false

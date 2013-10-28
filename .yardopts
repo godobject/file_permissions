@@ -1,2 +1,7 @@
---output-dir=doc/lib
+--output-dir=doc/api
 --embed-mixins
+--protected
+--no-private
+-
+HISTORY.md
+LICENSE.md

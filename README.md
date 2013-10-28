@@ -1,8 +1,8 @@
 PosixMode
 =========
 
-[![Gem Version](https://badge.fury.io/rb/posix_node.png)](http://badge.fury.io/rb/posix_mode)
-[![Build Status](https://secure.travis-ci.org/god_object/posix_mode.png)](https://secure.travis-ci.org/god_object/posix_mode)
+[![Gem Version](https://badge.fury.io/rb/posix_mode.png)](https://badge.fury.io/rb/posix_mode)
+[![Build Status](https://secure.travis-ci.org/godobject/posix_mode.png)](https://secure.travis-ci.org/godobject/posix_mode)
 [![Dependency Status](https://gemnasium.com/godobject/posix_mode.png)](https://gemnasium.com/godobject/posix_mode)
 [![Code Climate](https://codeclimate.com/github/godobject/posix_mode.png)](https://codeclimate.com/github/godobject/posix_mode)
 [![Coverage Status](https://coveralls.io/repos/godobject/posix_mode/badge.png?branch=master)](https://coveralls.io/r/godobject/posix_mode)
@@ -17,12 +17,13 @@ Description
 -----------
 
 PosixMode is a Ruby library providing an object representation of the common
-POSIX file system permission bit sets called modes. It can handle the generic
-read, write and execute permissions, as well as the setuid, setgid and sticky
-flags. Modes can be read from file system objects, parsed from typical string
-representations or simply defined by their octal numbers. They can then be
-manipulated through binary logic operators and written back to file system
-objects.
+POSIX file system permission bit sets called modes.
+
+It can handle the generic read, write and execute permissions, as well as the
+setuid, setgid and sticky flags. Modes can be read from file system objects,
+parsed from typical string representations or simply defined by their numeric
+representation. They can then be manipulated through binary logic operators and
+written back to file system objects.
 
 Features / Problems
 -------------------
@@ -46,7 +47,8 @@ Additional facts:
 * Automatically testable through RSpec.
 * Intended to be used with Ruby 1.9.3 or higher.
 * Cryptographically signed gem and git tags.
-* This library was developed as part of the PosixACL project.
+* This library was developed as part of the
+  [PosixACL](https://rubygems.org/gems/posix_acl) project.
 
 Synopsis
 --------
@@ -60,7 +62,7 @@ substantially in future releases.
 
 ### Loading
 
-In most cases you want to load the library by the following command:
+In most cases you want to load the code by using the following command:
 
 ~~~~~ ruby
 require 'posix_mode'
@@ -72,9 +74,11 @@ In a bundler Gemfile you should use the following:
 gem 'posix_mode'
 ~~~~~
 
-If you want to be able to simply call the class names inside the
-GodObject::PosixMode namespace you can include it into the current scope by
-executing the following statement:
+### Namespace
+
+This project is contained within a namespace to avoid name collisions with
+other code. If you do not want to specifiy the namespace explicitly you can
+include it into the current scope by executing the following statement:
 
 ~~~~~ ruby
 include GodObject::PosixMode
@@ -246,6 +250,7 @@ Requirements
 ------------
 
 * Ruby 1.9.3 or higher
+* [bit_set](https://rubygems.org/gems/bit_set), 0.1.0
 
 Installation
 ------------
@@ -303,24 +308,31 @@ or ideas for improvement of this software.
 
 ### Source code
 
+#### Distribution
+
 This software is developed in the source code management system Git. There are
 several synchronized mirror repositories available:
 
-* GitHub (located in California, USA)
+* [GitHub][github] (located in California, USA)
     
     URL: https://github.com/godobject/posix_mode.git
 
-* Gitorious (located in Norway)
+* [Gitorious][gitorious] (located in Norway)
     
     URL: https://git.gitorious.org/posix_mode/posix_mode.git
 
-* BitBucket (located in Colorado, USA)
+* [BitBucket][bitbucket] (located in Colorado, USA)
     
     URL: https://bitbucket.org/godobject/posix_mode.git
 
-* Pikacode (located in France)
+* [Pikacode][pikacode] (located in France)
 
     URL: https://pikacode.com/godobject/posix_mode.git
+
+   [github]:    https://github.com/godobject/posix_mode/
+   [gitorious]: https://gitorious.org/posix_mode/posix_mode/
+   [bitbucket]: https://bitbucket.org/godobject/posix_mode/
+   [pikacode]:  https://pikacode.com/godobject/posix_mode/
 
 You can get the latest source code with the following command, while
 exchanging the placeholder for one of the mirror URLs:
@@ -367,8 +379,10 @@ cannot be guaranteed before reviewing them.
 
 The following people were involved in development:
 
-- Alexander E. Fischer
-- Andreas Wurm
+* Oliver Feldt <of@godobject.net>
+* Alexander E. Fischer <aef@godobject.net>
+* Axel Sorge <as@godobject.net>
+* Andreas Wurm <aw@godobject.net>
 
 License
 -------

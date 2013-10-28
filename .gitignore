@@ -4,7 +4,7 @@ nbproject
 
 Gemfile.lock
 
-doc/lib
+doc/api
 coverage
 pkg
 .yardoc
