@@ -48,7 +48,7 @@ written back to file system objects.
 
   gem.required_ruby_version = '>= 1.9.3'
 
-  gem.add_dependency('bit_set', '0.1.0')
+  gem.add_dependency('bit_set')
 
   gem.add_development_dependency('rake')
   gem.add_development_dependency('bundler')
