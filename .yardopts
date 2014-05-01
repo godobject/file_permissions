@@ -2,6 +2,8 @@
 --embed-mixins
 --protected
 --no-private
+--markup-provider=redcarpet
+--markup=markdown
 -
 HISTORY.md
 LICENSE.md

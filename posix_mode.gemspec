@@ -1,6 +1,6 @@
 # encoding: UTF-8
 =begin
-Copyright GodObject Team <dev@godobject.net>, 2012-2013
+Copyright GodObject Team <dev@godobject.net>, 2012-2014
 
 This file is part of PosixMode.
 
@@ -63,6 +63,7 @@ written back to file system objects.
   gem.add_development_dependency('simplecov')
   gem.add_development_dependency('pry')
   gem.add_development_dependency('yard')
+  gem.add_development_dependency('redcarpet')
 
   gem.cert_chain = "#{ENV['GEM_CERT_CHAIN']}".split(':')
   gem.signing_key = ENV['GEM_SIGNING_KEY']

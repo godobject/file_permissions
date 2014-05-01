@@ -250,7 +250,7 @@ Requirements
 ------------
 
 * Ruby 1.9.3 or higher
-* [bit_set](https://rubygems.org/gems/bit_set), 0.1.0
+* [bit_set](https://rubygems.org/gems/bit_set)
 
 Installation
 ------------
@@ -387,7 +387,7 @@ The following people were involved in development:
 License
 -------
 
-Copyright GodObject Team <dev@godobject.net>, 2012-2013
+Copyright GodObject Team <dev@godobject.net>, 2012-2014
 
 This file is part of PosixMode.
 
