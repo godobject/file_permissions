@@ -25,6 +25,8 @@ module GodObject
     # The SpecialMode is basically an immutable bit set consisting of the
     # digits :setuid, :setgid and :sticky.
     class SpecialMode
+      include BitSet
+
       octal_mode = /(?<octal_mode>[0-7])/
       digit_mode = /(?<digit_mode>(?:-|s){2}(?:-|t))/
       blank      = /\p{Blank}*?/
@@ -34,7 +36,7 @@ module GodObject
 
       # Configuration for the GodObject:::BitSet object which is used to handle
       # the state internally.
-      BIT_SET_CONFIGURATION = BitSet::Configuration.new(
+      BIT_SET_CONFIGURATION = Configuration.new(
         setuid: 's',
         setgid: 's',
         sticky: 't'

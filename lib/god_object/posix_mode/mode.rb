@@ -25,6 +25,8 @@ module GodObject
     # The Mode is basically an immutable bit set consisting of the digits
     # :read, :write and :execute.
     class Mode
+      include BitSet
+
       octal_mode = /(?<octal_mode>[0-7])/
       digit_mode = /(?<digit_mode>(?:-|r|w|x){1,3})/
       blank      = /\p{Blank}*?/
@@ -34,7 +36,7 @@ module GodObject
 
       # Configuration for the GodObject:::BitSet object which is used to handle
       # the state internally.
-      BIT_SET_CONFIGURATION = BitSet::Configuration.new(
+      BIT_SET_CONFIGURATION = Configuration.new(
         read:    'r',
         write:   'w',
         execute: 'x'
