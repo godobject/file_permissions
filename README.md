@@ -50,8 +50,58 @@ Additional facts:
 * This library was developed as part of the
   [PosixACL](https://rubygems.org/gems/posix_acl) project.
 
-Synopsis
---------
+Requirements
+------------
+
+* Ruby 1.9.3 or higher
+* [bit_set](https://rubygems.org/gems/bit_set)
+
+Installation
+------------
+
+On *nix systems you may need to prefix the command with `sudo` to get root
+privileges.
+
+### High security (recommended)
+
+There is a high security installation option available through rubygems. It is
+highly recommended over the normal installation, although it may be a bit less
+comfortable. To use the installation method, you will need my [gem signing
+public key][gemkey], which I use for cryptographic signatures on all my gems.
+
+Add the key to your rubygems' trusted certificates by the following command:
+
+    gem cert --add aef-gem.pem
+
+Now you can install the gem while automatically verifying its signature by the
+following command:
+
+    gem install posix_mode -P HighSecurity
+
+Please notice that you may need other keys for dependent libraries, so you may
+have to install dependencies manually.
+
+   [gemkey]: https://aef.name/crypto/aef-gem.pem
+
+### Normal
+
+    gem install posix_mode
+
+### Automated testing
+
+Go into the root directory of the installed gem and run the following command
+to fetch all development dependencies:
+
+    bundle
+
+Afterwards start the test runner:
+
+    rake spec
+
+If something goes wrong you should be noticed through failing examples.
+
+Usage
+-----
 
 This documentation defines the public interface of the software. Don't rely
 on elements marked as private. Those should be hidden in the documentation
@@ -60,7 +110,9 @@ by default.
 This is still experimental software, even the public interface may change
 substantially in future releases.
 
-### Loading
+### Ruby interface
+
+#### Loading
 
 In most cases you want to load the code by using the following command:
 
@@ -74,7 +126,7 @@ In a bundler Gemfile you should use the following:
 gem 'posix_mode'
 ~~~~~
 
-### Namespace
+#### Namespace
 
 This project is contained within a namespace to avoid name collisions with
 other code. If you do not want to specifiy the namespace explicitly you can
@@ -86,7 +138,7 @@ include GodObject::PosixMode
 
 The following documentation assumes that you did include the namespace.
 
-### The ComplexMode
+#### The ComplexMode
 
 The complete regular permissions of a POSIX file system object are represented
 by the ComplexMode. It aggregates three Mode objects which define the read,
@@ -162,7 +214,7 @@ mode.assign_to_file('/path/to/some/other/file')
 
 Note that it also accepts a Pathname object instead of a path String.
 
-### Mode and SpecialMode
+#### Mode and SpecialMode
 
 Both Mode and SpecialMode are intended to be parts of the ComplexMode.
 Instances are immutable and can therefore only be defined while creation.
@@ -245,56 +297,6 @@ special_mode.enabled_digits
 special_mode.disabled_digits
 # => #<Set: {:setuid}>
 ~~~~~
-
-Requirements
-------------
-
-* Ruby 1.9.3 or higher
-* [bit_set](https://rubygems.org/gems/bit_set)
-
-Installation
-------------
-
-On *nix systems you may need to prefix the command with sudo to get root
-privileges.
-
-### High security (recommended)
-
-There is a high security installation option available through rubygems. It is
-highly recommended over the normal installation, although it may be a bit less
-comfortable. To use the installation method, you will need my [gem signing
-public key][gemkey], which I use for cryptographic signatures on all my gems.
-
-Add the key to your rubygems' trusted certificates by the following command:
-
-    gem cert --add aef-gem.pem
-
-Now you can install the gem while automatically verifying its signature by the
-following command:
-
-    gem install posix_mode -P HighSecurity
-
-Please notice that you may need other keys for dependent libraries, so you may
-have to install dependencies manually.
-
-   [gemkey]: https://aef.name/crypto/aef-gem.pem
-
-### Normal
-
-    gem install posix_mode
-
-### Automated testing
-
-Go into the root directory of the installed gem and run the following command
-to fetch all development dependencies:
-
-    bundle
-
-Afterwards start the test runner:
-
-    rake spec
-
-If something goes wrong you should be noticed through failing examples.
 
 Development
 -----------
