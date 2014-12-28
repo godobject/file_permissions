@@ -184,7 +184,7 @@ mode
 # => #<GodObject::PosixMode::ComplexMode: "rwsr-sr-x">
 ~~~~~
 
-The ComplexMode can be again written to a file system object be issuing the
+The ComplexMode can be again written to a file system object by issuing the
 following:
 
 ~~~~~ ruby
@@ -196,7 +196,7 @@ Note that it also accepts a Pathname object instead of a path String.
 #### Mode and SpecialMode
 
 Both Mode and SpecialMode are intended to be parts of the ComplexMode.
-Instances are immutable and can therefore only be defined while creation.
+Instances are immutable and can therefore only be defined during creation.
 
 New instances can either be created by a list of permission digits:
 
