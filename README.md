@@ -46,7 +46,7 @@ Additional facts:
 * Documented with YARD.
 * Automatically testable through RSpec.
 * Intended to be used with Ruby 1.9.3 or higher.
-* Cryptographically signed gem and git tags.
+* Cryptographically signed git tags.
 * This library was developed as part of the
   [PosixACL](https://rubygems.org/gems/posix_acl) project.
 
@@ -62,28 +62,7 @@ Installation
 On *nix systems you may need to prefix the command with `sudo` to get root
 privileges.
 
-### High security (recommended)
-
-There is a high security installation option available through rubygems. It is
-highly recommended over the normal installation, although it may be a bit less
-comfortable. To use the installation method, you will need my [gem signing
-public key][gemkey], which I use for cryptographic signatures on all my gems.
-
-Add the key to your rubygems' trusted certificates by the following command:
-
-    gem cert --add aef-gem.pem
-
-Now you can install the gem while automatically verifying its signature by the
-following command:
-
-    gem install posix_mode -P HighSecurity
-
-Please notice that you may need other keys for dependent libraries, so you may
-have to install dependencies manually.
-
-   [gemkey]: https://aef.name/crypto/aef-gem.pem
-
-### Normal
+### Gem
 
     gem install posix_mode
 

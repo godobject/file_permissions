@@ -64,7 +64,4 @@ written back to file system objects.
   gem.add_development_dependency('pry')
   gem.add_development_dependency('yard')
   gem.add_development_dependency('redcarpet')
-
-  gem.cert_chain = "#{ENV['GEM_CERT_CHAIN']}".split(':')
-  gem.signing_key = ENV['GEM_SIGNING_KEY']
 end
