@@ -30,13 +30,13 @@ module GodObject
 
           mode = SpecialMode.build(existing_mode)
 
-          mode.should equal existing_mode
+          expect(mode).to equal existing_mode
         end
 
         it "should create a new instance through parsing if given a String" do
           argument = 'r-x'
 
-          SpecialMode.should_receive(:parse).once.with(argument)
+          expect(SpecialMode).to receive(:parse).once.with(argument)
 
           SpecialMode.build(argument)
         end
@@ -44,7 +44,7 @@ module GodObject
         it "should create a new instance if given something else" do
           argument = 4
 
-          SpecialMode.should_receive(:new).once.with(argument)
+          expect(SpecialMode).to receive(:new).once.with(argument)
 
           SpecialMode.build(argument)
         end
@@ -54,35 +54,35 @@ module GodObject
 
         context "given an octal representation" do
           it "should return an empty set if a 0 is given" do
-            SpecialMode.parse('0').should eql SpecialMode.new(Set[])
+            expect(SpecialMode.parse('0')).to eql SpecialMode.new(Set[])
           end
 
           it "should return a set including the sticky token if a 1 is given" do
-            SpecialMode.parse('1').should eql SpecialMode.new(Set[:sticky])
+            expect(SpecialMode.parse('1')).to eql SpecialMode.new(Set[:sticky])
           end
 
           it "should return a set including the setgid token if a 2 is given" do
-            SpecialMode.parse('2').should eql SpecialMode.new(Set[:setgid])
+            expect(SpecialMode.parse('2')).to eql SpecialMode.new(Set[:setgid])
           end
 
           it "should return a set including the setgid and sticky tokens if a 3 is given" do
-            SpecialMode.parse('3').should eql SpecialMode.new(Set[:setgid, :sticky])
+            expect(SpecialMode.parse('3')).to eql SpecialMode.new(Set[:setgid, :sticky])
           end
 
           it "should return a set including the setuid token if a 4 is given" do
-            SpecialMode.parse('4').should eql SpecialMode.new(Set[:setuid])
+            expect(SpecialMode.parse('4')).to eql SpecialMode.new(Set[:setuid])
           end
 
           it "should return a set including the setuid and sticky tokens if a 5 is given" do
-            SpecialMode.parse('5').should eql SpecialMode.new(Set[:setuid, :sticky])
+            expect(SpecialMode.parse('5')).to eql SpecialMode.new(Set[:setuid, :sticky])
           end
 
           it "should return a set including the setuid and setgid tokens if a 6 is given" do
-            SpecialMode.parse('6').should eql SpecialMode.new(Set[:setuid, :setgid])
+            expect(SpecialMode.parse('6')).to eql SpecialMode.new(Set[:setuid, :setgid])
           end
 
           it "should return a set including the setuid, setgid and sticky tokens if a 7 is given" do
-            SpecialMode.parse('7').should eql SpecialMode.new(Set[:setuid, :setgid, :sticky])
+            expect(SpecialMode.parse('7')).to eql SpecialMode.new(Set[:setuid, :setgid, :sticky])
           end
 
           it "should raise an exception if 8 is given" do
@@ -113,17 +113,17 @@ module GodObject
 
           it "should parse the setuid symbol" do
             result = SpecialMode.parse('s--')
-            result.should eql SpecialMode.new(Set[:setuid])
+            expect(result).to eql SpecialMode.new(Set[:setuid])
           end
 
           it "should parse the setgid symbol" do
             result = SpecialMode.parse('-s-')
-            result.should eql SpecialMode.new(Set[:setgid])
+            expect(result).to eql SpecialMode.new(Set[:setgid])
           end
 
           it "should parse the sticky symbol" do
             result = SpecialMode.parse('--t')
-            result.should eql SpecialMode.new(Set[:sticky])
+            expect(result).to eql SpecialMode.new(Set[:sticky])
           end
         end
       end
@@ -131,30 +131,30 @@ module GodObject
       describe ".new" do
         it "should handle no parameters" do
           mode = SpecialMode.new
-          mode.should be_a(SpecialMode)
-          mode.setuid?.should eql false
-          mode.setgid?.should eql false
-          mode.sticky?.should eql false
-          mode.to_i.should eql 0
-          mode.to_s.should eql "---"
+          expect(mode).to be_a(SpecialMode)
+          expect(mode.setuid?).to eql false
+          expect(mode.setgid?).to eql false
+          expect(mode.sticky?).to eql false
+          expect(mode.to_i).to eql 0
+          expect(mode.to_s).to eql "---"
           attributes = { setuid: false, setgid: false, sticky: false }
-          mode.state.should eql attributes
+          expect(mode.state).to eql attributes
         end
 
         it "should handle a Set" do
           mode = SpecialMode.new(Set[:setuid, :sticky])
 
-          mode.state.should eql(setuid: true, setgid: false, sticky: true)
-          mode.setuid?.should eql true
-          mode.setgid?.should eql false
-          mode.sticky?.should eql true
+          expect(mode.state).to eql(setuid: true, setgid: false, sticky: true)
+          expect(mode.setuid?).to eql true
+          expect(mode.setgid?).to eql false
+          expect(mode.sticky?).to eql true
         end
 
         it "should handle an array of mode components" do
           mode = SpecialMode.new(:setuid, :setgid, :sticky)
           attributes = { setuid: true, setgid: true, sticky: true }
 
-          mode.state.should eql attributes
+          expect(mode.state).to eql attributes
         end
       end
 
@@ -169,23 +169,23 @@ module GodObject
 
       describe "#==" do
         it "should be true if compare to itself" do
-          empty_mode.should == empty_mode
+          expect(empty_mode).to eq(empty_mode)
         end
 
         it "should be false if setuid attributes differ" do
-          setuid_sticky_mode.should_not == sticky_mode
+          expect(setuid_sticky_mode).not_to eq(sticky_mode)
         end
 
         it "should be false if setgid attributes differ" do
-          setgid_sticky_mode.should_not == sticky_mode
+          expect(setgid_sticky_mode).not_to eq(sticky_mode)
         end
 
         it "should be false if sticky attributes differ" do
-          setgid_sticky_mode.should_not == setgid_mode
+          expect(setgid_sticky_mode).not_to eq(setgid_mode)
         end
 
         it "should be true if compared to a SpecialMode with same attributes" do
-          empty_mode.should == SpecialMode.new
+          expect(empty_mode).to eq(SpecialMode.new)
         end
 
         it "should be true if compared to an ACL-like with the same entries?" do
@@ -193,126 +193,126 @@ module GodObject
             to_i: 6, configuration: OpenStruct.new(digits: [:setuid, :setgid, :sticky])
           )
 
-          setuid_setgid_mode.should == other
+          expect(setuid_setgid_mode).to eq(other)
         end
       end
 
       describe "#eql?" do
         it "should be true if compare to itself" do
-          SpecialMode.new.should eql SpecialMode.new
+          expect(SpecialMode.new).to eql SpecialMode.new
         end
 
         it "should be false if attributes are the same but class differs" do
           other = OpenStruct.new(attribute: { setuid: false, setgid: false, sticky: false })
-          SpecialMode.new.should_not eql other
+          expect(SpecialMode.new).not_to eql other
         end
       end
 
       describe "#<=>" do
         it "should return -1 if the compared SpecialMode has a higher octal representation" do
-          (setgid_mode <=> setuid_mode).should eql -1
+          expect(setgid_mode <=> setuid_mode).to eql -1
         end
 
         it "should return 1 if the compared SpecialMode has a lower octal representation" do
-          (setuid_mode <=> setgid_mode).should eql 1
+          expect(setuid_mode <=> setgid_mode).to eql 1
         end
 
         it "should return 0 if the compared SpecialMode has an equal octal representation" do
-          (sticky_mode <=> sticky_mode).should eql 0
+          expect(sticky_mode <=> sticky_mode).to eql 0
         end
 
         it "should return nil if the compared object is incompatible" do
-          (setgid_mode <=> :something).should eql nil
+          expect(setgid_mode <=> :something).to eql nil
         end
       end
 
       describe "#inspect" do
         it "should give a decent string representation for debugging" do
-          full_mode.inspect.should == "#<#{subject.class}: \"sst\">"
-          setuid_setgid_mode.inspect.should == "#<#{subject.class}: \"ss-\">"
-          setuid_sticky_mode.inspect.should == "#<#{subject.class}: \"s-t\">"
-          setgid_sticky_mode.inspect.should == "#<#{subject.class}: \"-st\">"
-          setuid_mode.inspect.should == "#<#{subject.class}: \"s--\">"
-          setgid_mode.inspect.should == "#<#{subject.class}: \"-s-\">"
-          sticky_mode.inspect.should == "#<#{subject.class}: \"--t\">"
-          empty_mode.inspect.should == "#<#{subject.class}: \"---\">"
+          expect(full_mode.inspect).to eq("#<#{subject.class}: \"sst\">")
+          expect(setuid_setgid_mode.inspect).to eq("#<#{subject.class}: \"ss-\">")
+          expect(setuid_sticky_mode.inspect).to eq("#<#{subject.class}: \"s-t\">")
+          expect(setgid_sticky_mode.inspect).to eq("#<#{subject.class}: \"-st\">")
+          expect(setuid_mode.inspect).to eq("#<#{subject.class}: \"s--\">")
+          expect(setgid_mode.inspect).to eq("#<#{subject.class}: \"-s-\">")
+          expect(sticky_mode.inspect).to eq("#<#{subject.class}: \"--t\">")
+          expect(empty_mode.inspect).to eq("#<#{subject.class}: \"---\">")
         end
       end
 
       describe "#to_s" do
         it "should represent attributes as string" do
-          full_mode.to_s(:long).should == "sst"
-          setuid_setgid_mode.to_s(:long).should == "ss-"
-          setuid_sticky_mode.to_s(:long).should == "s-t"
-          setgid_sticky_mode.to_s(:long).should == "-st"
-          setuid_mode.to_s(:long).should  == "s--"
-          setgid_mode.to_s(:long).should  == "-s-"
-          sticky_mode.to_s(:long).should  == "--t"
-          empty_mode.to_s(:long).should  == "---"
+          expect(full_mode.to_s(:long)).to eq("sst")
+          expect(setuid_setgid_mode.to_s(:long)).to eq("ss-")
+          expect(setuid_sticky_mode.to_s(:long)).to eq("s-t")
+          expect(setgid_sticky_mode.to_s(:long)).to eq("-st")
+          expect(setuid_mode.to_s(:long)).to  eq("s--")
+          expect(setgid_mode.to_s(:long)).to  eq("-s-")
+          expect(sticky_mode.to_s(:long)).to  eq("--t")
+          expect(empty_mode.to_s(:long)).to  eq("---")
         end
       end
 
       describe "#to_i" do
         it "should represent no attributes in octal" do
-          empty_mode.to_i.should eql 0
+          expect(empty_mode.to_i).to eql 0
         end
 
         it "should represent sticky attribute in octal" do
-          sticky_mode.to_i.should eql 1
+          expect(sticky_mode.to_i).to eql 1
         end
 
         it "should represent setgid attribute in octal" do
-          setgid_mode.to_i.should eql 2
+          expect(setgid_mode.to_i).to eql 2
         end
 
         it "should represent sticky and setgid attributes in octal" do
-          setgid_sticky_mode.to_i.should eql 3
+          expect(setgid_sticky_mode.to_i).to eql 3
         end
 
         it "should represent setuid attribute in octal" do
-          setuid_mode.to_i.should eql 4
+          expect(setuid_mode.to_i).to eql 4
         end
 
         it "should represent setuid and sticky attributes in octal" do
-          setuid_sticky_mode.to_i.should eql 5
+          expect(setuid_sticky_mode.to_i).to eql 5
         end
 
         it "should represent setuid and setgid attributes in octal" do
-          setuid_setgid_mode.to_i.should eql 6
+          expect(setuid_setgid_mode.to_i).to eql 6
         end
 
         it "should represent setuid, setgid and sticky attributes in octal" do
-          full_mode.to_i.should eql 7
+          expect(full_mode.to_i).to eql 7
         end
       end    
       
       describe "#setuid?" do
         it "should be true if setuid attribute is set" do
-          setuid_mode.setuid?.should eql true
+          expect(setuid_mode.setuid?).to eql true
         end
 
         it "should be false if setuid attribute is not set" do
-          setgid_sticky_mode.setuid?.should eql false
+          expect(setgid_sticky_mode.setuid?).to eql false
         end
       end
 
       describe "#setgid?" do
         it "should be true if setgid attribute is set" do
-          setgid_sticky_mode.setgid?.should eql true
+          expect(setgid_sticky_mode.setgid?).to eql true
         end
 
         it "should be false if setgid attribute is not set" do
-          setuid_sticky_mode.setgid?.should eql false
+          expect(setuid_sticky_mode.setgid?).to eql false
         end
       end    
       
       describe "#sticky?" do
         it "should be true if sticky attribute is set" do
-          setuid_sticky_mode.sticky?.should eql true
+          expect(setuid_sticky_mode.sticky?).to eql true
         end
 
         it "should be false if sticky attribute is not set" do
-          empty_mode.sticky?.should eql false
+          expect(empty_mode.sticky?).to eql false
         end
       end
 
@@ -320,8 +320,8 @@ module GodObject
       it "should create a new SpecialMode with all digits inverted" do
         result = setuid_sticky_mode.invert
 
-        result.should_not equal setuid_sticky_mode
-        result.should eql setgid_mode
+        expect(result).not_to equal setuid_sticky_mode
+        expect(result).to eql setgid_mode
       end
     end
 
@@ -329,9 +329,9 @@ module GodObject
       it "should create a new SpecialMode from the first operand without the digits of the second operand" do
         result = full_mode - setgid_mode
 
-        result.should_not equal full_mode
-        result.should_not equal setgid_mode
-        result.should eql setuid_sticky_mode
+        expect(result).not_to equal full_mode
+        expect(result).not_to equal setgid_mode
+        expect(result).to eql setuid_sticky_mode
       end
     end
 
@@ -340,9 +340,9 @@ module GodObject
         it "should create a new SpecialMode with only those digits enabled that are enabled in both operands" do
           result = setuid_setgid_mode.public_send(method_name, setgid_sticky_mode)
 
-          result.should_not equal setuid_setgid_mode
-          result.should_not equal setgid_sticky_mode
-          result.should eql setgid_mode
+          expect(result).not_to equal setuid_setgid_mode
+          expect(result).not_to equal setgid_sticky_mode
+          expect(result).to eql setgid_mode
         end
       end
     end
@@ -352,9 +352,9 @@ module GodObject
         it "should create a new SpecialMode with all enabled digits of both operands" do
           result = setuid_mode.public_send(method_name, setgid_mode)
 
-          result.should_not equal setuid_mode
-          result.should_not equal setgid_mode
-          result.should eql setuid_setgid_mode
+          expect(result).not_to equal setuid_mode
+          expect(result).not_to equal setgid_mode
+          expect(result).to eql setuid_setgid_mode
         end
       end
     end
@@ -364,9 +364,9 @@ module GodObject
         it "should create a new SpecialMode with only those digits enabled that are enabled in only one operand" do
           result = full_mode.public_send(method_name, sticky_mode)
 
-          result.should_not equal full_mode
-          result.should_not equal sticky_mode
-          result.should eql setuid_setgid_mode
+          expect(result).not_to equal full_mode
+          expect(result).not_to equal sticky_mode
+          expect(result).to eql setuid_setgid_mode
         end
       end
     end
