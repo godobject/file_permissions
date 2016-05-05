@@ -17,8 +17,6 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-require 'spec_helper'
-
 module GodObject
   module PosixMode
 
