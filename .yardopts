@@ -2,7 +2,7 @@
 --embed-mixins
 --protected
 --no-private
---markup-provider=redcarpet
+--markup-provider=kramdown
 --markup=markdown
 -
 HISTORY.md
