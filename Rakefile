@@ -45,4 +45,4 @@ task :console do
   Pry.start(GodObject::PosixMode)
 end
 
-task :default => :spec
+task default: :spec
