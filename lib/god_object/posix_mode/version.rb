@@ -23,7 +23,7 @@ module GodObject
     # The currently loaded version.
     #
     # Using Semantic Versioning (2.0.0) rules
-    # @see http://semver.org/
+    # @see http://semver.org/spec/v2.0.0.html
     VERSION = '0.1.0'.freeze
 
   end

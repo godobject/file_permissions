@@ -2,10 +2,10 @@ PosixMode
 =========
 
 [![Gem Version](https://badge.fury.io/rb/posix_mode.png)](https://badge.fury.io/rb/posix_mode)
-[![Build Status](https://secure.travis-ci.org/godobject/posix_mode.png)](https://secure.travis-ci.org/godobject/posix_mode)
 [![Dependency Status](https://gemnasium.com/godobject/posix_mode.png)](https://gemnasium.com/godobject/posix_mode)
 [![Code Climate](https://codeclimate.com/github/godobject/posix_mode.png)](https://codeclimate.com/github/godobject/posix_mode)
-[![Coverage Status](https://coveralls.io/repos/godobject/posix_mode/badge.png?branch=master)](https://coveralls.io/r/godobject/posix_mode)
+[![Build Status](https://secure.travis-ci.org/godobject/posix_mode.png)](https://secure.travis-ci.org/godobject/posix_mode)
+[![Coverage Status](https://coveralls.io/repos/github/godobject/posix_mode/badge.svg?branch=master)](https://coveralls.io/github/godobject/posix_mode?branch=master)
 
 * [Documentation][docs]
 * [Project][project]
@@ -35,7 +35,7 @@ This project tries to conform to:
 * [Ruby Style Guide][style]
 * [Gem Packaging: Best Practices][gem]
 
-   [semver]: http://semver.org/
+   [semver]: http://semver.org/spec/v2.0.0.html
    [rps]:    http://chneukirchen.github.com/rps/
    [style]:  https://github.com/bbatsov/ruby-style-guide
    [gem]:    http://weblog.rubyonrails.org/2009/9/1/gem-packaging-best-practices
@@ -77,17 +77,23 @@ Afterwards start the test runner:
 
     rake spec
 
-If something goes wrong you should be noticed through failing examples.
+If something goes wrong you should be notified through failing examples.
 
 Usage
 -----
 
-This documentation defines the public interface of the software. Don't rely
-on elements marked as private. Those should be hidden in the documentation
-by default.
+This documentation defines the public interface of the software. The version
+number of the software tracks changes to this public interface as described in
+[Semantic Versioning][semver]. Do not use elements that are marked as private.
+These elements are not guaranteed to exist in otherwise compatible future
+versions. Should you really need some parts that are currently marked as
+private, please contact us. We might be able to expose them as public
+interface for your convenience.
 
 This is still experimental software, even the public interface may change
 substantially in future releases.
+
+   [semver]: http://semver.org/spec/v2.0.0.html
 
 ### Ruby interface
 
@@ -282,7 +288,7 @@ Development
 
 ### Bug reports and feature requests
 
-Please use the [issue tracker][issues] on github.com to let me know about errors
+Please use the [issue tracker][issues] on github.com to let us know about errors
 or ideas for improvement of this software.
 
    [issues]: https://github.com/godobject/posix_mode/issues/
@@ -296,36 +302,36 @@ several synchronized mirror repositories available:
 
 * [GitHub][github] (located in California, USA)
     
-    URL: https://github.com/godobject/posix_mode.git
+    URI: https://github.com/godobject/posix_mode.git
 
-* [Gitorious][gitorious] (located in Norway)
+* [GitLab][gitlab] (located in Illinois, USA)
     
-    URL: https://git.gitorious.org/posix_mode/posix_mode.git
+    URI: https://gitlab.com/godobject/posix_mode.git
 
-* [BitBucket][bitbucket] (located in Colorado, USA)
+* [BitBucket][bitbucket] (located in California, USA)
     
-    URL: https://bitbucket.org/godobject/posix_mode.git
+    URI: https://bitbucket.org/godobject/posix_mode.git
 
 * [Pikacode][pikacode] (located in France)
 
-    URL: https://pikacode.com/godobject/posix_mode.git
+    URI: https://pikacode.com/godobject/posix_mode.git
 
    [github]:    https://github.com/godobject/posix_mode/
-   [gitorious]: https://gitorious.org/posix_mode/posix_mode/
+   [gitlab]:    https://gitlab.com/godobject/posix_mode/
    [bitbucket]: https://bitbucket.org/godobject/posix_mode/
    [pikacode]:  https://pikacode.com/godobject/posix_mode/
 
 You can get the latest source code with the following command, while
-exchanging the placeholder for one of the mirror URLs:
+exchanging the placeholder for one of the mirror URIs:
 
-    git clone MIRROR_URL
+    git clone MIRROR_URI
 
 #### Tags and cryptographic verification
 
 The final commit before each released gem version will be marked by a tag
-named like the version with a prefixed lower-case "v", as required by Semantic
-Versioning. Every tag will be signed by my [OpenPGP public key][openpgp] which
-enables you to verify your copy of the code cryptographically.
+named like the version with a prefixed lower-case "v". Every tag will be signed
+by Alexander E. Fischer's [OpenPGP public key][openpgp] which enables you to
+verify your copy of the code cryptographically.
 
    [openpgp]: https://aef.name/crypto/aef-openpgp.asc
 
@@ -335,7 +341,7 @@ Add the key to your GnuPG keyring by the following command:
 
 This command will tell you if your code is of integrity and authentic:
 
-    git tag -v [TAG NAME]
+    git tag --verify [TAG NAME]
 
 #### Building gems
 
