@@ -17,7 +17,7 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 # Gem dependencies are specified in the .gemspec file
 gemspec
