@@ -21,7 +21,6 @@ module GodObject
   module PosixMode
 
     describe ComplexMode do
-
       describe ".build" do
         it "should return the same object if a ComplexMode is given" do
           existing_mode = ComplexMode.new(5)
@@ -340,7 +339,6 @@ module GodObject
           expect(complex_mode.to_i).to eql 02615
         end
       end
-      
     end
 
   end

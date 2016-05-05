@@ -21,7 +21,6 @@ module GodObject
   module PosixMode
 
     describe SpecialMode do
-
       describe ".build" do
         it "should return the same object if a SpecialMode is given" do
           existing_mode = SpecialMode.new(5)
@@ -49,7 +48,6 @@ module GodObject
       end
 
       describe ".parse" do
-
         context "given an octal representation" do
           it "should return an empty set if a 0 is given" do
             expect(SpecialMode.parse('0')).to eql SpecialMode.new(Set[])
@@ -314,61 +312,61 @@ module GodObject
         end
       end
 
-    describe "#invert" do
-      it "should create a new SpecialMode with all digits inverted" do
-        result = setuid_sticky_mode.invert
+      describe "#invert" do
+        it "should create a new SpecialMode with all digits inverted" do
+          result = setuid_sticky_mode.invert
 
-        expect(result).not_to equal setuid_sticky_mode
-        expect(result).to eql setgid_mode
-      end
-    end
-
-    describe "#-" do
-      it "should create a new SpecialMode from the first operand without the digits of the second operand" do
-        result = full_mode - setgid_mode
-
-        expect(result).not_to equal full_mode
-        expect(result).not_to equal setgid_mode
-        expect(result).to eql setuid_sticky_mode
-      end
-    end
-
-    [:intersection, :&].each do |method_name|
-      describe "##{method_name}" do
-        it "should create a new SpecialMode with only those digits enabled that are enabled in both operands" do
-          result = setuid_setgid_mode.public_send(method_name, setgid_sticky_mode)
-
-          expect(result).not_to equal setuid_setgid_mode
-          expect(result).not_to equal setgid_sticky_mode
+          expect(result).not_to equal setuid_sticky_mode
           expect(result).to eql setgid_mode
         end
       end
-    end
 
-    [:union, :|, :+].each do |method_name|
-      describe "##{method_name}" do
-        it "should create a new SpecialMode with all enabled digits of both operands" do
-          result = setuid_mode.public_send(method_name, setgid_mode)
-
-          expect(result).not_to equal setuid_mode
-          expect(result).not_to equal setgid_mode
-          expect(result).to eql setuid_setgid_mode
-        end
-      end
-    end
-
-    [:symmetric_difference, :^].each do |method_name|
-      describe "##{method_name}" do
-        it "should create a new SpecialMode with only those digits enabled that are enabled in only one operand" do
-          result = full_mode.public_send(method_name, sticky_mode)
+      describe "#-" do
+        it "should create a new SpecialMode from the first operand without the digits of the second operand" do
+          result = full_mode - setgid_mode
 
           expect(result).not_to equal full_mode
-          expect(result).not_to equal sticky_mode
-          expect(result).to eql setuid_setgid_mode
+          expect(result).not_to equal setgid_mode
+          expect(result).to eql setuid_sticky_mode
+        end
+      end
+
+      [:intersection, :&].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new SpecialMode with only those digits enabled that are enabled in both operands" do
+            result = setuid_setgid_mode.public_send(method_name, setgid_sticky_mode)
+
+            expect(result).not_to equal setuid_setgid_mode
+            expect(result).not_to equal setgid_sticky_mode
+            expect(result).to eql setgid_mode
+          end
+        end
+      end
+
+      [:union, :|, :+].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new SpecialMode with all enabled digits of both operands" do
+            result = setuid_mode.public_send(method_name, setgid_mode)
+
+            expect(result).not_to equal setuid_mode
+            expect(result).not_to equal setgid_mode
+            expect(result).to eql setuid_setgid_mode
+          end
+        end
+      end
+
+      [:symmetric_difference, :^].each do |method_name|
+        describe "##{method_name}" do
+          it "should create a new SpecialMode with only those digits enabled that are enabled in only one operand" do
+            result = full_mode.public_send(method_name, sticky_mode)
+
+            expect(result).not_to equal full_mode
+            expect(result).not_to equal sticky_mode
+            expect(result).to eql setuid_setgid_mode
+          end
         end
       end
     end
-      
-    end
+
   end
 end

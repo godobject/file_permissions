@@ -19,8 +19,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 module GodObject
   module PosixMode
-    describe Mode do
 
+    describe Mode do
       describe ".build" do
         it "should return the same object if a Mode is given" do
           existing_mode = Mode.new(5)
@@ -48,7 +48,6 @@ module GodObject
       end
 
       describe ".parse" do
-
         context "given an octal representation" do
           it "should return an empty set if a 0 is given" do
             expect(Mode.parse('0')).to eql Mode.new(Set[])
@@ -391,7 +390,7 @@ module GodObject
           end
         end
       end
-
     end
+
   end
 end
