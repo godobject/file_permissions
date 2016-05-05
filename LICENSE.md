@@ -1,4 +1,4 @@
-Copyright GodObject Team <dev@godobject.net>, 2012-2014
+Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
 PosixMode is licensed under the following ISC-style license:
 
