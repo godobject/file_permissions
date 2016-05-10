@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,7 +18,7 @@ PERFORMANCE OF THIS SOFTWARE.
 =end
 
 module GodObject
-  module PosixMode
+  module FilePermissions
 
     describe ComplexMode do
       describe ".build" do
@@ -85,7 +85,7 @@ module GodObject
 
       describe ".from_file" do
         before(:each) do
-          @test_directory = Pathname.new(Dir.mktmpdir('posix_mode_spec'))
+          @test_directory = Pathname.new(Dir.mktmpdir('file_permissions_spec'))
         end
 
         after(:each) do
@@ -170,7 +170,7 @@ module GodObject
 
       describe "#assign_to_file" do
         before(:each) do
-          @test_directory = Pathname.new(Dir.mktmpdir('posix_mode_spec'))
+          @test_directory = Pathname.new(Dir.mktmpdir('file_permissions_spec'))
         end
 
         after(:each) do
@@ -254,44 +254,44 @@ module GodObject
       describe "#inspect" do
         it "should represent the user, group and other read and write flags" do
           complex_mode = ComplexMode.new(00765)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "rwxrw-r-x">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "rwxrw-r-x">'
         end
 
         it "should represent the setuid flag if user execute flag is set" do
           complex_mode = ComplexMode.new(04715)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "rws--xr-x">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "rws--xr-x">'
         end
 
         it "should represent the setuid flag if user execute flag is unset" do
           complex_mode = ComplexMode.new(04615)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "rwS--xr-x">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "rwS--xr-x">'
         end
 
         it "should represent the setgid flag if group execute flag is set" do
           complex_mode = ComplexMode.new(02615)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "rw---sr-x">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "rw---sr-x">'
         end
 
         it "should represent the setgid flag if group execute flag is unset" do
           complex_mode = ComplexMode.new(02605)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "rw---Sr-x">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "rw---Sr-x">'
         end
 
         it "should represent the sticky flag if other execute flag is set" do
           complex_mode = ComplexMode.new(01435)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "r---wxr-t">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "r---wxr-t">'
         end
 
         it "should represent the sticky flag if other execute flag is unset" do
           complex_mode = ComplexMode.new(07004)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "--S--Sr-T">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "--S--Sr-T">'
         end        
       end
 
       describe "#inspect" do
         it "should give a decent string representation for debugging" do
           complex_mode = ComplexMode.new(07004)
-          expect(complex_mode.inspect).to eql '#<GodObject::PosixMode::ComplexMode: "--S--Sr-T">'
+          expect(complex_mode.inspect).to eql '#<GodObject::FilePermissions::ComplexMode: "--S--Sr-T">'
         end
       end
         

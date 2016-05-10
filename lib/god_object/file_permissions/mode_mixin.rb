@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,7 +18,7 @@ PERFORMANCE OF THIS SOFTWARE.
 =end
 
 module GodObject
-  module PosixMode
+  module FilePermissions
 
     # Common functionality of both Mode and SpecialMode
     module ModeMixin
@@ -34,11 +34,11 @@ module GodObject
 
         # Either passes through or generates a new Mode object
         #
-        # @return [GodObject::PosixMode::ModeMixin]
+        # @return [GodObject::FilePermissions::ModeMixin]
         #
         # @overload build(mode)
-        #   @param [GodObject::PosixMode::ModeMixin] mode an already existing
-        #     Mode
+        #   @param [GodObject::FilePermissions::ModeMixin] mode an already
+        #     existing Mode
         #
         # @overload build(string)
         #   @param [String] string a String representation
@@ -61,25 +61,26 @@ module GodObject
 
       end
 
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with all digit
-      #   states inverted
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with all
+      #   digit states inverted
       def invert
         self.class.new(disabled_digits)
       end
 
-      # @param [GodObject::PosixMode::ModeMixin, Array<Symbol>] other another
-      #   Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
-      #   digits of the current and other
+      # @param [GodObject::FilePermissions::ModeMixin, Array<Symbol>] other
+      #   another Mode
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with the
+      #   enabled digits of the current and other
       def +(other)
         other = other.enabled_digits if other.respond_to?(:enabled_digits)
 
         self.class.new(enabled_digits + other)
       end
 
-      # @param [GodObject::PosixMode::ModeMixin, Integer] other another Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
-      #   digits of the current and other
+      # @param [GodObject::FilePermissions::ModeMixin, Integer] other another
+      #   Mode
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with the
+      #   enabled digits of the current and other
       def union(other)
         other = other.to_i if other.respond_to?(:to_i)
 
@@ -88,10 +89,10 @@ module GodObject
 
       alias | union
 
-      # @param [GodObject::PosixMode::ModeMixin, Array<Symbol>] other another
-      #   Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
-      #   digits of the current without the enabled digits of other
+      # @param [GodObject::FilePermissions::ModeMixin, Array<Symbol>] other
+      #   another Mode
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with the
+      #   enabled digits of the current without the enabled digits of other
       def difference(other)
         other = other.enabled_digits if other.respond_to?(:enabled_digits)
 
@@ -100,9 +101,10 @@ module GodObject
 
       alias - difference
 
-      # @param [GodObject::PosixMode::ModeMixin, Integer] other another Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with only those
-      #   digits enabled which are enabled in both the current and other
+      # @param [GodObject::FilePermissions::ModeMixin, Integer] other another
+      #   Mode
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with only
+      #   those digits enabled which are enabled in both the current and other
       def intersection(other)
         other = other.to_i if other.respond_to?(:to_i)
 
@@ -111,9 +113,10 @@ module GodObject
 
       alias & intersection
 
-      # @param [GodObject::PosixMode::ModeMixin, Integer] other another Mode
-      # @return [GodObject::PosixMode::ModeMixin] a new Mode with the enabled
-      #   digits which are enabled in only one of current and other
+      # @param [GodObject::FilePermissions::ModeMixin, Integer] other another
+      #   Mode
+      # @return [GodObject::FilePermissions::ModeMixin] a new Mode with the
+      #   enabled digits which are enabled in only one of current and other
       def symmetric_difference(other)
         other = other.to_i if other.respond_to?(:to_i)
 
@@ -140,7 +143,7 @@ module GodObject
 
       # Answers if another object is equal and of the same type family.
       #
-      # @see GodObject::PosixMode::ModeMixin#<=>
+      # @see GodObject::FilePermissions::ModeMixin#<=>
       # @param [Object] other an object to be checked for equality
       # @return [true, false] true if the object is considered equal and of the
       #   same type family, false otherwise

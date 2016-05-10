@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -41,8 +41,8 @@ desc "Opens an interactive console with the project code loaded"
 task :console do
   Bundler.setup
   require 'pry'
-  require 'posix_mode'
-  Pry.start(GodObject::PosixMode)
+  require 'file_permissions'
+  Pry.start(GodObject::FilePermissions)
 end
 
 task default: :spec

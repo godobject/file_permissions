@@ -1,29 +1,29 @@
-PosixMode
-=========
+FilePermissions
+===============
 
-[![Gem Version](https://badge.fury.io/rb/posix_mode.png)](https://badge.fury.io/rb/posix_mode)
-[![Dependency Status](https://gemnasium.com/godobject/posix_mode.png)](https://gemnasium.com/godobject/posix_mode)
-[![Code Climate](https://codeclimate.com/github/godobject/posix_mode.png)](https://codeclimate.com/github/godobject/posix_mode)
-[![Build Status](https://secure.travis-ci.org/godobject/posix_mode.png)](https://secure.travis-ci.org/godobject/posix_mode)
-[![Coverage Status](https://coveralls.io/repos/github/godobject/posix_mode/badge.svg?branch=master)](https://coveralls.io/github/godobject/posix_mode?branch=master)
+[![Gem Version](https://badge.fury.io/rb/file_permissions.png)](https://badge.fury.io/rb/file_permissions)
+[![Dependency Status](https://gemnasium.com/godobject/file_permissions.png)](https://gemnasium.com/godobject/file_permissions)
+[![Code Climate](https://codeclimate.com/github/godobject/file_permissions.png)](https://codeclimate.com/github/godobject/file_permissions)
+[![Build Status](https://secure.travis-ci.org/godobject/file_permissions.png)](https://secure.travis-ci.org/godobject/file_permissions)
+[![Coverage Status](https://coveralls.io/repos/github/godobject/file_permissions/badge.svg?branch=master)](https://coveralls.io/github/godobject/file_permissions?branch=master)
 
 * [Documentation][docs]
 * [Project][project]
 
-   [docs]:    http://rdoc.info/github/godobject/posix_mode/
-   [project]: https://github.com/godobject/posix_mode/
+   [docs]:    http://rdoc.info/github/godobject/file_permissions/
+   [project]: https://github.com/godobject/file_permissions/
 
 Description
 -----------
 
-PosixMode is a Ruby library providing an object representation of the common
-POSIX file system permission bit sets called modes.
+FilePermissions is a Ruby library providing an object representation of the
+file permission bits in POSIX systems.
 
-It can handle the generic read, write and execute permissions, as well as the
-setuid, setgid and sticky flags. Modes can be read from file system objects,
-parsed from typical string representations or simply defined by their numeric
-representation. They can then be manipulated through binary logic operators and
-written back to file system objects.
+It can handle the generic read, write and execute permissions, as well as
+the setuid, setgid and sticky flags. Permission sets can be read from file
+system objects, parsed from typical string representations or simply
+defined by their numeric representation. They can then be manipulated
+through binary logic operators and written back to file system objects.
 
 Features / Problems
 -------------------
@@ -64,7 +64,7 @@ privileges.
 
 ### Gem
 
-    gem install posix_mode
+    gem install file_permissions
 
 ### Automated testing
 
@@ -102,13 +102,13 @@ substantially in future releases.
 In most cases you want to load the code by using the following command:
 
 ~~~~~ ruby
-require 'posix_mode'
+require 'file_permissions'
 ~~~~~
 
 In a bundler Gemfile you should use the following:
 
 ~~~~~ ruby
-gem 'posix_mode'
+gem 'file_permissions'
 ~~~~~
 
 #### Namespace
@@ -118,7 +118,7 @@ other code. If you do not want to specifiy the namespace explicitly you can
 include it into the current scope by executing the following statement:
 
 ~~~~~ ruby
-include GodObject::PosixMode
+include GodObject::FilePermissions
 ~~~~~
 
 The following documentation assumes that you did include the namespace.
@@ -135,17 +135,17 @@ A ComplexMode can be created from a typical octal mode representation:
 
 ~~~~~ ruby
 ComplexMode.new(0644)
-# => #<GodObject::PosixMode::ComplexMode: "rw-r--r--">
+# => #<GodObject::FilePermissions::ComplexMode: "rw-r--r--">
 
 ComplexMode.new(03644)
-# => #<GodObject::PosixMode::ComplexMode: "rw-r-Sr-T">
+# => #<GodObject::FilePermissions::ComplexMode: "rw-r-Sr-T">
 ~~~~~
 
 Or simply by a list of permission digits:
 
 ~~~~~ ruby
 ComplexMode.new(:user_write, :group_execute, :other_read, :sticky)
-# => #<GodObject::PosixMode::ComplexMode: "-w---xr-T">
+# => #<GodObject::FilePermissions::ComplexMode: "-w---xr-T">
 ~~~~~
 
 It can also be read from the file system like this:
@@ -153,7 +153,7 @@ It can also be read from the file system like this:
 ~~~~~ ruby
 mode = ComplexMode.from_file('/path/to/a/file')
 
-# => #<GodObject::PosixMode::ComplexMode: "rwsr-x---">
+# => #<GodObject::FilePermissions::ComplexMode: "rwsr-x---">
 ~~~~~
 
 Note that it also accepts a Pathname object instead of a path String.
@@ -180,14 +180,14 @@ Also you can modify the ComplexMode by replacing its aggregated Mode objects:
 mode.other = Mode.new(:read, :execute)
 
 mode
-# => #<GodObject::PosixMode::ComplexMode: "rwsr-xr-x">
+# => #<GodObject::FilePermissions::ComplexMode: "rwsr-xr-x">
 ~~~~~
 
 ~~~~~ ruby
 mode.special = SpecialMode.new(:setuid, :setgid)
 
 mode
-# => #<GodObject::PosixMode::ComplexMode: "rwsr-sr-x">
+# => #<GodObject::FilePermissions::ComplexMode: "rwsr-sr-x">
 ~~~~~
 
 The ComplexMode can be again written to a file system object by issuing the
@@ -208,36 +208,36 @@ New instances can either be created by a list of permission digits:
 
 ~~~~~ ruby
 Mode.new(:read, :write, :execute)
-# => #<GodObject::PosixMode::Mode: "rwx">
+# => #<GodObject::FilePermissions::Mode: "rwx">
 ~~~~~
 
 ~~~~~ ruby
 SpecialMode.new(:setuid, :setgid, :sticky)
-# => #<GodObject::PosixMode::SpecialMode: "sst">
+# => #<GodObject::FilePermissions::SpecialMode: "sst">
 ~~~~~
 
 Or be defined by their octal digit representation:
 
 ~~~~~ ruby
 Mode.new(5)
-# => #<GodObject::PosixMode::Mode: "r-x">
+# => #<GodObject::FilePermissions::Mode: "r-x">
 ~~~~~
 
 ~~~~~ ruby
 SpecialMode.new(3)
-# => #<GodObject::PosixMode::SpecialMode: "-st">
+# => #<GodObject::FilePermissions::SpecialMode: "-st">
 ~~~~~
 
 Another way to create new instances is to parse a String representation:
 
 ~~~~~ ruby
 regular_mode = Mode.parse('xr')
-# => #<GodObject::PosixMode::Mode: "r-x">
+# => #<GodObject::FilePermissions::Mode: "r-x">
 ~~~~~
 
 ~~~~~ ruby
 special_mode = SpecialMode.new('-st')
-# => #<GodObject::PosixMode::SpecialMode: "-st">
+# => #<GodObject::FilePermissions::SpecialMode: "-st">
 ~~~~~
 
 Note that instead of the Mode, when parsing a SpecialMode, the String
@@ -291,7 +291,7 @@ Development
 Please use the [issue tracker][issues] on github.com to let us know about errors
 or ideas for improvement of this software.
 
-   [issues]: https://github.com/godobject/posix_mode/issues/
+   [issues]: https://github.com/godobject/file_permissions/issues/
 
 ### Source code
 
@@ -302,24 +302,24 @@ several synchronized mirror repositories available:
 
 * [GitHub][github] (located in California, USA)
     
-    URI: https://github.com/godobject/posix_mode.git
+    URI: https://github.com/godobject/file_permissions.git
 
 * [GitLab][gitlab] (located in Illinois, USA)
     
-    URI: https://gitlab.com/godobject/posix_mode.git
+    URI: https://gitlab.com/godobject/file_permissions.git
 
 * [BitBucket][bitbucket] (located in California, USA)
     
-    URI: https://bitbucket.org/godobject/posix_mode.git
+    URI: https://bitbucket.org/godobject/file_permissions.git
 
 * [Pikacode][pikacode] (located in France)
 
-    URI: https://pikacode.com/godobject/posix_mode.git
+    URI: https://pikacode.com/godobject/file_permissions.git
 
-   [github]:    https://github.com/godobject/posix_mode/
-   [gitlab]:    https://gitlab.com/godobject/posix_mode/
-   [bitbucket]: https://bitbucket.org/godobject/posix_mode/
-   [pikacode]:  https://pikacode.com/godobject/posix_mode/
+   [github]:    https://github.com/godobject/file_permissions/
+   [gitlab]:    https://gitlab.com/godobject/file_permissions/
+   [bitbucket]: https://bitbucket.org/godobject/file_permissions/
+   [pikacode]:  https://pikacode.com/godobject/file_permissions/
 
 You can get the latest source code with the following command, while
 exchanging the placeholder for one of the mirror URIs:
@@ -376,7 +376,7 @@ License
 
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above

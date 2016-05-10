@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -30,6 +30,6 @@ end
 
 require 'rspec'
 require 'pry'
-require 'posix_mode'
+require 'file_permissions'
 require 'fileutils'
 require 'ostruct'

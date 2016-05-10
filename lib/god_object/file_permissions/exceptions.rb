@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -17,6 +17,17 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-# Helper file to allow loading by gem name.
+module GodObject
+  module FilePermissions
 
-require 'god_object/posix_mode'
+    # Base class for exceptions specific to GodObject::FilePermissions.
+    class Error < StandardError; end
+
+    # An error while parsing a String representation.
+    class ParserError < Error; end
+
+    # An error which is raised in situations where lchmod is unavailable.
+    class NotImplementedError < Error; end
+
+  end
+end

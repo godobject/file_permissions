@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,7 +18,7 @@ PERFORMANCE OF THIS SOFTWARE.
 =end
 
 module GodObject
-  module PosixMode
+  module FilePermissions
 
     # Represents one component of the normal file mode in POSIX environments.
     #
@@ -52,7 +52,7 @@ module GodObject
         # Creates a new Mode object by parsing a String representation.
         #
         # @param [String] string a String containing a mode
-        # @return [GodObject::PosixMode::Mode] a new Mode object
+        # @return [GodObject::FilePermissions::Mode] a new Mode object
         def parse(string)
           result = string.match(PATTERN)
           

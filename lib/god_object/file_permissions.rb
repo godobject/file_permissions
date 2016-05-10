@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -32,17 +32,17 @@ require 'bit_set'
 # @see https://www.godobject.net/
 module GodObject
 
-  # Namespace for components of the "posix_mode" library
-  module PosixMode
+  # Namespace for components of the "file_permissions" library
+  module FilePermissions
 
   end
 
 end
 
-require 'god_object/posix_mode/helper_mixin'
-require 'god_object/posix_mode/version'
-require 'god_object/posix_mode/exceptions'
-require 'god_object/posix_mode/mode_mixin'
-require 'god_object/posix_mode/mode'
-require 'god_object/posix_mode/special_mode'
-require 'god_object/posix_mode/complex_mode'
+require 'god_object/file_permissions/helper_mixin'
+require 'god_object/file_permissions/version'
+require 'god_object/file_permissions/exceptions'
+require 'god_object/file_permissions/mode_mixin'
+require 'god_object/file_permissions/mode'
+require 'god_object/file_permissions/special_mode'
+require 'god_object/file_permissions/complex_mode'

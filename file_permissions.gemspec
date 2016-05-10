@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -17,24 +17,24 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 =end
 
-require File.expand_path('../lib/god_object/posix_mode/version', __FILE__)
+require File.expand_path('../lib/god_object/file_permissions/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name    = "posix_mode"
-  gem.version = GodObject::PosixMode::VERSION.dup
+  gem.name    = "file_permissions"
+  gem.version = GodObject::FilePermissions::VERSION.dup
   gem.authors = ["Oliver Feldt", "Alexander E. Fischer", "Axel Sorge", "Andreas Wurm"]
   gem.email   = ["of@godobject.net", "aef@godobject.net", "as@godobject.net", "aw@godobject.net"]
   gem.description = <<-DESCRIPTION
-PosixMode is a Ruby library providing an object representation of the common
-POSIX file system permission bit sets called modes.
+FilePermissions is a Ruby library providing an object representation of the
+file permission bits in POSIX systems.
 
-It can handle the generic read, write and execute permissions, as well as the
-setuid, setgid and sticky flags. Modes can be read from file system objects,
-parsed from typical string representations or simply defined by their numeric
-representation. They can then be manipulated through binary logic operators and
-written back to file system objects.
+It can handle the generic read, write and execute permissions, as well as
+the setuid, setgid and sticky flags. Permission sets can be read from file
+system objects, parsed from typical string representations or simply
+defined by their numeric representation. They can then be manipulated
+through binary logic operators and written back to file system objects.
   DESCRIPTION
-  gem.summary  = "Representation and manipulation of basic POSIX file system permissions in Ruby."
+  gem.summary  = "Representation and manipulation of POSIX system file permissions in Ruby."
   gem.homepage = "https://www.godobject.net/"
   gem.license  = "ISC"
   gem.has_rdoc = "yard"

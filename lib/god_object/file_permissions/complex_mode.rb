@@ -2,7 +2,7 @@
 =begin
 Copyright GodObject Team <dev@godobject.net>, 2012-2016
 
-This file is part of PosixMode.
+This file is part of FilePermissions.
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -18,22 +18,24 @@ PERFORMANCE OF THIS SOFTWARE.
 =end
 
 module GodObject
-  module PosixMode
+  module FilePermissions
 
     # An aggregate of Mode and SpecialMode to represent normal file
     # permissions in a POSIX environment.
     class ComplexMode
 
-      # @return [GodObject::PosixMode::Mode] permissions for the owner
+      # @return [GodObject::FilePermissions::Mode] permissions for the owner
       attr_accessor :user
 
-      # @return [GodObject::PosixMode::Mode] permissions for the owning group
+      # @return [GodObject::FilePermissions::Mode] permissions for the owning
+      #   group
       attr_accessor :group
 
-      # @return [GodObject::PosixMode::Mode] permissions for everyone else
+      # @return [GodObject::FilePermissions::Mode] permissions for everyone
+      #   else
       attr_accessor :other
 
-      # @return [GodObject::PosixMode::SpecialMode] special file flags
+      # @return [GodObject::FilePermissions::SpecialMode] special file flags
       attr_accessor :special
 
       extend Forwardable
@@ -43,17 +45,19 @@ module GodObject
         include HelperMixin
 
         # @overload build(complex_mode)
-        #   Returns an existing instance of GodObject::PosixMode::ComplexMode
-        #   @param [GodObject::PosixMode::ComplexMode] complex_mode an already
-        #     existing ComplexMode
-        #   @return [GodObject::PosixMode::ComplexMode] the same ComplexMode
-        #      object
+        #   Returns an existing instance of
+        #     GodObject::FilePermissions::ComplexMode
+        #   @param [GodObject::FilePermissions::ComplexMode] complex_mode an
+        #     already existing ComplexMode
+        #   @return [GodObject::FilePermissions::ComplexMode] the same
+        #     ComplexMode object
         #
         # @overload build(numeric)
         #   Returns a new ComplexMode object with the given numeric
         #   representation.
         #   @param [Integer] numeric a numeric representation
-        #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+        #   @return [GodObject::FilePermissions::ComplexMode] a new ComplexMode
+        #     object
         #
         # @overload build(enabled_digits)
         #   Returns a new ComplexMode object with the given enabled digits
@@ -61,7 +65,8 @@ module GodObject
         #     :group_read, :group_write, :group_execute, :other_read,
         #     :other_write, :other_execute, :setuid, :setgid, :sticky>]
         #     enabled_digits a list of enabled digits
-        #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+        #   @return [GodObject::FilePermissions::ComplexMode] a new ComplexMode
+        #     object
         def build(mode)
           if mode.kind_of?(self)
             mode
@@ -95,7 +100,8 @@ module GodObject
       #   Returns a new ComplexMode object with the given numeric
       #   representation.
       #   @param [Integer] numeric a numeric representation
-      #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+      #   @return [GodObject::FilePermissions::ComplexMode] a new ComplexMode
+      #     object
       #
       # @overload initialize(enabled_digits)
       #   Returns a new ComplexMode object with the given enabled digits
@@ -103,7 +109,8 @@ module GodObject
       #     :group_write, :group_execute, :other_read, :other_write,
       #     :other_execute, :setuid, :setgid, :sticky>] enabled_digits a list
       #     of enabled digits
-      #   @return [GodObject::PosixMode::ComplexMode] a new ComplexMode object
+      #   @return [GodObject::FilePermissions::ComplexMode] a new ComplexMode
+      #     object
       def initialize(*mode_components)
         sub_mode_components = Hash.new{|hash, key| hash[key] = Set.new }
 
@@ -223,27 +230,27 @@ module GodObject
 
       # @!method setuid
       #   @attribute setuid [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#setuid)
+      #   @return (see GodObject::FilePermissions::SpecialMode#setuid)
       #
       # @!method setuid?
       #   @attribute setuid? [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#setuid?)
+      #   @return (see GodObject::FilePermissions::SpecialMode#setuid?)
       #
       # @!method setgid
       #   @attribute setgid [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#setgid)
+      #   @return (see GodObject::FilePermissions::SpecialMode#setgid)
       #
       # @!method setgid?
       #   @attribute setgid? [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#setgid?)
+      #   @return (see GodObject::FilePermissions::SpecialMode#setgid?)
       #
       # @!method sticky
       #   @attribute sticky [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#sticky)
+      #   @return (see GodObject::FilePermissions::SpecialMode#sticky)
       #
       # @!method sticky?
       #   @attribute sticky? [readonly]
-      #   @return (see GodObject::PosixMode::SpecialMode#sticky?)
+      #   @return (see GodObject::FilePermissions::SpecialMode#sticky?)
       def_delegators :@special, :setuid?, :setgid?, :sticky?
 
     end
