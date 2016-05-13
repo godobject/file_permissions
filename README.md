@@ -314,12 +314,12 @@ several synchronized mirror repositories available:
 
 * [Pikacode][pikacode] (located in France)
 
-    URI: https://pikacode.com/godobject/file_permissions.git
+    URI: https://v2.pikacode.com/godobject/file_permissions.git
 
    [github]:    https://github.com/godobject/file_permissions/
    [gitlab]:    https://gitlab.com/godobject/file_permissions/
    [bitbucket]: https://bitbucket.org/godobject/file_permissions/
-   [pikacode]:  https://pikacode.com/godobject/file_permissions/
+   [pikacode]:  https://v2.pikacode.com/godobject/file_permissions/
 
 You can get the latest source code with the following command, while
 exchanging the placeholder for one of the mirror URIs:
