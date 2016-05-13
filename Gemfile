@@ -22,6 +22,4 @@ source 'https://rubygems.org'
 # Gem dependencies are specified in the .gemspec file
 gemspec
 
-gem 'bit_set', path: '../bit_set'
-
 gem 'coveralls', require: false
