@@ -48,7 +48,7 @@ Additional facts:
 * Intended to be used with Ruby 1.9.3 or higher.
 * Cryptographically signed git tags.
 * This library was developed as part of the
-  [PosixACL](https://rubygems.org/gems/posix_acl) project.
+  [UsersAndGroups](https://rubygems.org/gems/users_and_groups) project.
 
 Requirements
 ------------
