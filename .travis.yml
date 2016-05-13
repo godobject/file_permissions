@@ -41,12 +41,7 @@ matrix:
     - rvm: *jruby_9_0
       os: osx
   allow_failures:
-    - rvm: 2.2 # Not available on Travis CI yet
-      os: osx
-    - rvm: 2.3.0 # Not available on Travis CI yet
-      os: osx
-    - rvm: *jruby_1_7 # Not available on Travis CI yet
-      os: osx
+    - os: osx
     - rvm: *jruby_9_0 # JRuby 9.x does not support OpenJDK 6
       jdk: openjdk6
 
