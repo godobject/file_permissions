@@ -28,6 +28,10 @@ unless defined?(Rubinius)
   end
 end
 
+require 'coveralls'
+
+Coveralls.wear!
+
 require 'rspec'
 require 'pry'
 require 'file_permissions'
